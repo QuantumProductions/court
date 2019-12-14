@@ -61,7 +61,8 @@ export default class Court extends React.Component {
     console.log("Biscuit 1")
     const {cards} = this.state
     console.log("Biscuit cards" + cards)
-
+    console.log(item.y)
+console.log(item.x)
     const {suit, value} = cards[item.y][item.x]
 
     return (<View style={[styles.itemContainer, { backgroundColor: 'red', height: 100 }]}>

@@ -1,6 +1,5 @@
 const suits = ["D", "H", "C", "S"]
 const nums = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
-const jokers = ["Z", "Y"]
 
 function shuffle(a) {
     for (let i = a.length - 1; i > 0; i--) {
@@ -36,7 +35,20 @@ export default class Deck {
 			}
 		}
 
-		console.log("Random cards"+ cards)
+		let addIns = [
+		{suit: "D", value: "K"},
+		{suit: "H", value: "K"},
+		{suit: "C", value: "K"},
+		{suit: "S", value: "K"},
+		{suit: "D", value: "A"},
+		{suit: "H", value: "A"},
+		{suit: "C", value: "A"},
+		{suit: "S", value: "A"},
+		{suit: "D", value: "Z"},
+		{suit: "C", value: "Z"}
+		]
+
+		shuffled = shuffle(shuffled.concat(addIns))
 
 		return {cards: cards, deck: shuffled, discard: []}
 	}
