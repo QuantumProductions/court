@@ -1,0 +1,39 @@
+dependencies: \
+  /Users/combo.zone/court/node_modules/@unimodules/react-native-adapter/ios/UMReactNativeAdapter/UMNativeModulesProxy/UMNativeModulesProxy.m \
+  /Users/combo.zone/court/ios/Pods/Target\ Support\ Files/UMReactNativeAdapter/UMReactNativeAdapter-prefix.pch \
+  /Users/combo.zone/court/node_modules/@unimodules/react-native-adapter/ios/UMReactNativeAdapter/UMNativeModulesProxy/UMNativeModulesProxy.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/RCTBridgeModule.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/RCTDefines.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/RCTInspectorDevServerHelper.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/RCTPackagerConnection.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Private/UMCore/UMInternalModule.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Private/UMCore/UMDefines.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Private/UMCore/UMModuleRegistry.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Private/UMCore/UMExportedModule.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Private/UMCore/UMViewManager.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Private/UMCore/UMModuleRegistryDelegate.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/RCTLog.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/RCTAssert.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/RCTUtils.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Private/UMCore/UMEventEmitter.h \
+  /Users/combo.zone/court/node_modules/@unimodules/react-native-adapter/ios/UMReactNativeAdapter/UMViewManagerAdapter/UMViewManagerAdapter.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/RCTViewManager.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/RCTConvert.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/RCTAnimationType.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/RCTBorderStyle.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/RCTPointerEvents.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/RCTTextDecorationLineType.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/Yoga/yoga/Yoga.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/Yoga/yoga/YGEnums.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/Yoga/yoga/YGMacros.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/Yoga/yoga/YGValue.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/RCTEventDispatcher.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/RCTBridge.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/RCTBridgeDelegate.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/RCTJavaScriptLoader.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/RCTFrameUpdate.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/RCTInvalidating.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/UIView+React.h \
+  /Users/combo.zone/court/ios/Pods/Headers/Public/React-Core/React/RCTComponent.h \
+  /Users/combo.zone/court/node_modules/@unimodules/react-native-adapter/ios/UMReactNativeAdapter/UMBridgeModule.h \
+  /Users/combo.zone/court/node_modules/@unimodules/react-native-adapter/ios/UMReactNativeAdapter/UMModuleRegistryAdapter/UMViewManagerAdapterClassesRegistry.h
