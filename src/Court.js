@@ -121,20 +121,16 @@ export default class Court extends React.Component {
       } else if (item.d > 8) {
         text = ">>>"
       }
-      return (<View style={[styles.itemContainer, { backgroundColor: 'green', height: 40} ]}>
+      return (<View style={[styles.itemContainer, { backgroundColor: 'green', height: 44} ]}>
         <TouchableOpacity onPress={() => this.slidePressed(item)}>
           <Text style={styles.text}>{text}</Text>
         </TouchableOpacity>
       </View>)
     }
-    console.log("Biscuit 1")
     const {cards} = this.state
-    console.log("Biscuit cards" + cards)
-    console.log(item.y)
-console.log(item.x)
     const {suit, value} = cards[item.y][item.x]
 
-    return (<View style={[styles.itemContainer, { backgroundColor: '#333', height: 100 }]}>
+    return (<View style={[styles.itemContainer, { backgroundColor: '#777', height: 100 }]}>
       <Text>{suit} {value}</Text>
     </View>)
   }
