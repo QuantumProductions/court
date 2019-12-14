@@ -113,9 +113,17 @@ export default class Court extends React.Component {
         <Text>Null</Text>
       </View>)
     } else if (item.b) {
-      return (<View style={[styles.itemContainer, { backgroundColor: 'green'} ]}>
+      let text = "VVV"
+      if (item.d > 2 && item.d < 6) {
+        text = "<<<"
+      } else if (item.d > 5 && item.d < 9) {
+        text = "^^^"
+      } else if (item.d > 8) {
+        text = ">>>"
+      }
+      return (<View style={[styles.itemContainer, { backgroundColor: 'green', height: 40} ]}>
         <TouchableOpacity onPress={() => this.slidePressed(item)}>
-          <Text>Hey</Text>
+          <Text style={styles.text}>{text}</Text>
         </TouchableOpacity>
       </View>)
     }
@@ -126,7 +134,7 @@ export default class Court extends React.Component {
 console.log(item.x)
     const {suit, value} = cards[item.y][item.x]
 
-    return (<View style={[styles.itemContainer, { backgroundColor: 'red', height: 100 }]}>
+    return (<View style={[styles.itemContainer, { backgroundColor: '#333', height: 100 }]}>
       <Text>{suit} {value}</Text>
     </View>)
   }
@@ -179,7 +187,7 @@ console.log(item.x)
         // spacing={20}
         renderItem={this._renderItem}
       />
-        <Text>{newCard.suit} {newCard.value}</Text>
+        <Text style={styles.text}>{newCard.suit} {newCard.value}</Text>
       </View>
     )
   }
@@ -187,7 +195,11 @@ console.log(item.x)
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
-    height: 500
+    backgroundColor: '#000',
+    height: 500,
+    marginBottom: 100
   },
+  text: {
+    color: '#fff'
+  }
 });
