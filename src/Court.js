@@ -2,6 +2,7 @@ import React from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import SlideButton from './SlideButton';
 import { FlatGrid } from 'react-native-super-grid';
+import Deck from './Deck'
 
 const width = Dimensions.get('window').width
 const itemDimension = (width / 6)
@@ -34,6 +35,13 @@ const c7  = {x: 1, y: 2}
 const c8  = {x: 2, y: 2}
 
 export default class Court extends React.Component {
+  state = {
+    deck: [],
+    discard: [],
+    cards: [],
+    game: -1
+  }
+
   slidePressed = ({x, y, d}) => {
     console.log(`Slide pressed ${x} ${y} ${d}`);
   }
@@ -50,26 +58,54 @@ export default class Court extends React.Component {
         </TouchableOpacity>
       </View>)
     }
+    console.log("Biscuit 1")
+    const {cards} = this.state
+    console.log("Biscuit cards" + cards)
+
+    const {suit, value} = cards[item.y][item.x]
 
     return (<View style={[styles.itemContainer, { backgroundColor: 'red', height: 100 }]}>
-      <Text>{item.x} {item.y}</Text>
+      <Text>{suit} {value}</Text>
     </View>)
   }
 
+  setup()  {
+
+  console.log("Setup called")
+    const {cards, deck, discard} = Deck.gameStart()
+    console.log(deck.length)
+    this.setState({
+      cards,
+      deck,
+      discard,
+      game: 1
+    })
+  }
+
+  componentDidMount() {
+    this.setup()
+  }
+
   render() {
-     const items = [
+    const {game, cards} = this.state;
+    if (game === -1) {
+      console.log("Rendering null")
+      return (<View />)
+    }
+
+     const layout = [
           null, b0, b1, b2, null,
-          b11, c0, c1, c2, b3,
-          b10, c3, c4, c5, b4,
-          b9, c6, c7, c8, b5,
+          b11, {...cards[0][0], x: 0, y: 0}, {...cards[0][1], x: 1, y: 0}, {...cards[0][2], x: 2, y: 0}, b3,
+          b10, {...cards[1][0], x: 0, y: 1}, {...cards[1][1], x: 1, y: 1}, {...cards[1][2], x: 1, y: 2}, b4,
+          b9, {...cards[2][0], x: 0, y: 2}, {...cards[2][1], x: 1, y: 2},  {...cards[2][2], x: 2, y: 2}, b5,
           null, b8, b7, b6, null
         ];
-
+    
     return (
         <View style={styles.container}>
       <FlatGrid
         itemDimension={itemDimension}
-        items={items}
+        items={layout}
         style={styles.gridView}
         // fixed
         // spacing={20}
