@@ -3,6 +3,7 @@ import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-nati
 import SlideButton from './SlideButton';
 import { FlatGrid } from 'react-native-super-grid';
 import {Deck, nums} from './Deck'
+import Card from './Card'
 
 const width = Dimensions.get('window').width
 const itemDimension = (width / 6)
@@ -92,7 +93,6 @@ export default class Court extends React.Component {
     let cardOff = cards[p3[1]][p3[0]]
     let middleCard = cards[p2[1]][p2[0]]
     let firstCard = cards[p1[1]][p1[0]]
-    console.log(`${cardOff.suit}: ${cardOff.value} at ${x}/${y}`)
     let newCards = [null, null, null]
     if (this.canSlide(cardOff, newCard)) {
       cards[p3[1]][p3[0]] = middleCard
@@ -131,7 +131,7 @@ export default class Court extends React.Component {
     const {suit, value} = cards[item.y][item.x]
 
     return (<View style={[styles.itemContainer, { backgroundColor: '#777', height: 100 }]}>
-      <Text>{suit} {value}</Text>
+      <Card suit={suit} value={value} />
     </View>)
   }
 
@@ -183,7 +183,7 @@ export default class Court extends React.Component {
         // spacing={20}
         renderItem={this._renderItem}
       />
-        <Text style={styles.text}>{newCard.suit} {newCard.value}</Text>
+        <Card suit={newCard.suit} value={newCard.value} />
       </View>
     )
   }
@@ -196,6 +196,8 @@ const styles = StyleSheet.create({
     marginBottom: 100
   },
   text: {
-    color: '#fff'
+    color: '#fff',
+    width: 44,
+    height: 44
   }
 });
