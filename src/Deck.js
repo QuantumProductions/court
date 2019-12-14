@@ -1,5 +1,5 @@
 const suits = ["D", "H", "C", "S"]
-const nums = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
+export const nums = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
 
 function shuffle(a) {
     for (let i = a.length - 1; i > 0; i--) {
@@ -9,7 +9,7 @@ function shuffle(a) {
     return a;
 }
 
-export default class Deck {
+export class Deck {
 	static startingCards() {
 		let cards = []
 		for (let s of suits) {
