@@ -59,7 +59,7 @@ export default class Court extends React.Component {
       if (newSuit === "S") {
         return true
       } else if (newSuit === "C") {
-        return nums.indexOf(newValue) > nums.indexOff(offValue)
+        return nums.indexOf(newValue) > nums.indexOf(offValue)
       } else {
         return false
       }
