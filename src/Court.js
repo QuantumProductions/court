@@ -175,6 +175,7 @@ export default class Court extends React.Component {
     
     return (
         <View style={styles.container}>
+         <Card suit={newCard.suit} value={newCard.value} />
       <FlatGrid
         itemDimension={itemDimension}
         items={layout}
@@ -183,7 +184,6 @@ export default class Court extends React.Component {
         // spacing={20}
         renderItem={this._renderItem}
       />
-        <Card suit={newCard.suit} value={newCard.value} />
       </View>
     )
   }
@@ -193,7 +193,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#000',
     height: 600,
-    marginBottom: 100
+    marginBottom: 20,
+    justifyContent: 'flex-end'
   },
   text: {
     color: '#fff',
