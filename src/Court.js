@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import SlideButton from './SlideButton';
 import { FlatGrid } from 'react-native-super-grid';
@@ -41,7 +41,7 @@ export default class Court extends React.Component {
     discard: [],
     cards: [],
     game: -1,
-    newCard: {suit: null, value: null}
+    newCard: {suit: "D", value: "a"}
   }
 
   canSlide(cardOff, newCard) {
@@ -192,7 +192,7 @@ export default class Court extends React.Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#000',
-    height: 500,
+    height: 600,
     marginBottom: 100
   },
   text: {

@@ -1,5 +1,5 @@
 const suits = ["D", "H", "C", "S"]
-export const nums = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
+export const nums = ["a", "2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k"]
 
 function shuffle(a) {
     for (let i = a.length - 1; i > 0; i--) {
@@ -14,7 +14,7 @@ export class Deck {
 		let cards = []
 		for (let s of suits) {
 			for (let n of nums) {
-				if (n != "A" && n != "K") {
+				if (n != "a" && n != "k") {
 						cards.push({suit: s, value: n})
 				}
 			}
@@ -36,17 +36,18 @@ export class Deck {
 		}
 
 		let addIns = [
-		{suit: "D", value: "K"},
-		{suit: "H", value: "K"},
-		{suit: "C", value: "K"},
-		{suit: "S", value: "K"},
-		{suit: "D", value: "A"},
-		{suit: "H", value: "A"},
-		{suit: "C", value: "A"},
-		{suit: "S", value: "A"},
-		{suit: "D", value: "Z"},
-		{suit: "C", value: "Z"}
+		{suit: "D", value: "k"},
+		{suit: "H", value: "k"},
+		{suit: "C", value: "k"},
+		{suit: "S", value: "k"},
+		{suit: "D", value: "a"},
+		{suit: "H", value: "a"},
+		{suit: "C", value: "a"},
+		{suit: "S", value: "a"},
 		]
+
+				// {suit: "D", value: "Z"},
+		// {suit: "C", value: "Z"}
 
 		shuffled = shuffle(shuffled.concat(addIns))
 
