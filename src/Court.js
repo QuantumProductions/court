@@ -128,8 +128,11 @@ export default class Court extends React.Component {
     this.setup()
   }
 
-  onSwipe = (card, direction) => {
-
+  onSwipe = (x, y, d) => {
+    console.log(x)
+    console.log(y)
+    console.log(d)
+    this.slidePressed({x,y,d})
   }
 
   render() {
@@ -140,6 +143,7 @@ export default class Court extends React.Component {
     }
     return (
      <View style={styles.game}>
+        <Card data={newCard} />
        <Row cards={cards[0]} y={0} onSwipe={this.onSwipe} />
        <Row cards={cards[1]} y={1} onSwipe={this.onSwipe} />
        <Row cards={cards[2]} y={2} onSwipe={this.onSwipe} />
