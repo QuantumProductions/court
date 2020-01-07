@@ -4,8 +4,8 @@ import Images from '../assets'
 
 const w = Dimensions.get('window').width
 
-const cardw = (w / 3) - 10
-const cardh = (cardw / 3) * 4
+const cardw = (w / 3)
+const cardh = cardw * 1.45
 // const cardw = 100
 // const cardh = 100
 // const cardh = card 
@@ -31,8 +31,8 @@ const styles = StyleSheet.create({
     color: '#fff'
   },
   image: {
-  	width: 100,
-  	height: 160
+  	width: cardw,
+  	height: cardh
   },
   container: {
   	alignItems: 'center',

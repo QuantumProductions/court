@@ -139,20 +139,23 @@ export default class Court extends React.Component {
       return (<View />)
     }
     return (
-        <View style={styles.container}>
-         <Card data={newCard} />
-         <Row cards={cards[0]} y={0} onSwipe={this.onSwipe} />
-         <Row cards={cards[1]} y={1} onSwipe={this.onSwipe} />
-         <Row cards={cards[2]} y={2} onSwipe={this.onSwipe} />
-      </View>
+     <View style={styles.game}>
+       <Row cards={cards[0]} y={0} onSwipe={this.onSwipe} />
+       <Row cards={cards[1]} y={1} onSwipe={this.onSwipe} />
+       <Row cards={cards[2]} y={2} onSwipe={this.onSwipe} />
+     </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  game: {
+    justifyContent: 'flex-end',
+    flex: 1,
+    paddingBottom: 40
+  },
   container: {
     backgroundColor: '#000',
-    height: 600,
     marginBottom: 20,
     justifyContent: 'flex-end'
   },
