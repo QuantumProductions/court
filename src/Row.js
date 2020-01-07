@@ -1,11 +1,7 @@
 import React from 'react'
 import {Dimensions, View, Text, Image, StyleSheet} from 'react-native'
 import Card from './Card'
-
 const w = Dimensions.get('window').width
-const h = w / 3 * 4
-console.log("Biscuit w" + w)
-console.log("Biscuit" + (w / 3 * 4))
 
 export default class Row extends React.Component {
 	render() {

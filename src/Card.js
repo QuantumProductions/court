@@ -1,27 +1,72 @@
 import React from 'react'
 import {Dimensions, View, Text, Image, StyleSheet} from 'react-native'
 import Images from '../assets'
-
 const w = Dimensions.get('window').width
-
 const cardw = (w / 3)
 const cardh = cardw * 1.45
-// const cardw = 100
-// const cardh = 100
-// const cardh = card 
+import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
+
 export default class Card extends React.Component {
+onSwipe(gestureName, gestureState) {
+    const {onSwipe} = this.props
+
+    console.log(gestureName);
+    console.log(gestureState);
+    const { dx, dy} = gestureState;
+    console.log(`${dx} ${dy}`)
+
+    if (dx > 0) {
+      if (dx > Math.abs(dy) * 5) {
+        onSwipe(x, y, 0)
+      }
+    }
+
+    if (dx < 0) {
+      if (dx < -Math.abs(dy) * 5) {
+
+        return
+      }
+    }
+
+    if (dy > 0) {
+      if (dy > Math.abs(dx) * 5) {
+
+        return
+      }
+    }
+
+    if (dy < 0) {
+      if (dy < -Math.abs(dx) * 5) {
+
+        return
+      }
+    }
+  }
+
 	render() {
 		const {data} = this.props
 		const {suit, value} = data
 		let suitName = {"D": "diamonds", "H" : "hearts", "C": "clubs", "S": "spades"}[suit]
 		let p = `${value}_of_${suitName}`
+
+		const config = {
+      velocityThreshold: 0.0,
+      directionalOffsetThreshold: 80
+    };
+
 		return (
-			<View style={styles.container}>
-			<Image
-				style={styles.image}
-				source={Images[p]}
-			/>
-			</View>
+			<GestureRecognizer
+        config={config}
+        style={styles.swiper}
+        onSwipe={(direction, state) => this.onSwipe(direction, state)}
+        >
+				<View style={styles.container}>
+				<Image
+					style={styles.image}
+					source={Images[p]}
+				/>
+				</View>
+			</GestureRecognizer>
 		)
 	}
 }
