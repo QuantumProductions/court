@@ -1,12 +1,11 @@
- import React from 'react';
+import React from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import SlideButton from './SlideButton';
-import { FlatGrid } from 'react-native-super-grid';
 import {Deck, nums} from './Deck'
+import Row from './Row'
 import Card from './Card'
 
 const width = Dimensions.get('window').width
-const itemDimension = (width / 6)
+const itemDimension = 80
 
 //0 button 1 card
 //0123 nesw
@@ -107,36 +106,7 @@ export default class Court extends React.Component {
     console.log(`Slide pressed ${x} ${y} ${d}`);
   }
 
-  _renderItem = ({item, index}) => {
-    if (item === null) {
-      return (<View style={[styles.itemContainer, { backgroundColor: '000' }] }>
-        <Text>Null</Text>
-      </View>)
-    } else if (item.b) {
-      let text = "VVV"
-      if (item.d > 2 && item.d < 6) {
-        text = "<<<"
-      } else if (item.d > 5 && item.d < 9) {
-        text = "^^^"
-      } else if (item.d > 8) {
-        text = ">>>"
-      }
-      return (<View style={[styles.itemContainer, { backgroundColor: 'green', height: 44} ]}>
-        <TouchableOpacity onPress={() => this.slidePressed(item)}>
-          <Text style={styles.text}>{text}</Text>
-        </TouchableOpacity>
-      </View>)
-    }
-    const {cards} = this.state
-    const {suit, value} = cards[item.y][item.x]
-
-    return (<View style={[styles.itemContainer, { backgroundColor: '#777', height: 100 }]}>
-      <Card suit={suit} value={value} />
-    </View>)
-  }
-
   setup()  {
-
   console.log("Setup called")
     const {cards, deck, discard} = Deck.gameStart()
     console.log(deck.length)
@@ -158,32 +128,22 @@ export default class Court extends React.Component {
     this.setup()
   }
 
+  onSwipe = (card, direction) => {
+
+  }
+
   render() {
     const {game, cards, newCard} = this.state;
     if (game === -1) {
       console.log("Rendering null")
       return (<View />)
     }
-
-     const layout = [
-          null, b0, b1, b2, null,
-          b11, {...cards[0][0], x: 0, y: 0}, {...cards[0][1], x: 1, y: 0}, {...cards[0][2], x: 2, y: 0}, b3,
-          b10, {...cards[1][0], x: 0, y: 1}, {...cards[1][1], x: 1, y: 1}, {...cards[1][2], x: 2, y: 1}, b4,
-          b9, {...cards[2][0], x: 0, y: 2}, {...cards[2][1], x: 1, y: 2},  {...cards[2][2], x: 2, y: 2}, b5,
-          null, b8, b7, b6, null
-        ];
-    
     return (
         <View style={styles.container}>
-         <Card suit={newCard.suit} value={newCard.value} />
-      <FlatGrid
-        itemDimension={itemDimension}
-        items={layout}
-        style={styles.gridView}
-        // fixed
-        // spacing={20}
-        renderItem={this._renderItem}
-      />
+         <Card data={newCard} />
+         <Row cards={cards[0]} y={0} onSwipe={this.onSwipe} />
+         <Row cards={cards[1]} y={1} onSwipe={this.onSwipe} />
+         <Row cards={cards[2]} y={2} onSwipe={this.onSwipe} />
       </View>
     )
   }

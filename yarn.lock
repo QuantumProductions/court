@@ -5220,13 +5220,6 @@ react-native-screens@~2.0.0-alpha.12:
   dependencies:
     debounce "^1.2.0"
 
-react-native-super-grid@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/react-native-super-grid/-/react-native-super-grid-3.1.1.tgz#27652de0827d158ba0ab400631f30c74a68f8550"
-  integrity sha512-qtnoXDKDG/hfqPzmXt34HGNjlOL1D7+efYlaaECCGp2MwOZxE7MTDy9pHGtpTcrM8JRTVyqB1Piy1SkkWEa80Q==
-  dependencies:
-    prop-types "^15.6.0"
-
 react-native-unimodules@~0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/react-native-unimodules/-/react-native-unimodules-0.7.0.tgz#ce4e48898c3ef0b986b87e7421303abf8afc862c"
