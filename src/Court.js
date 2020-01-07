@@ -44,6 +44,9 @@ export default class Court extends React.Component {
   }
 
   canSlide(cardOff, newCard) {
+    if (newCard.value === "a") {
+      return true
+    }
     let offSuit = cardOff.suit
     if (offSuit === "D") {
       return true
@@ -129,10 +132,44 @@ export default class Court extends React.Component {
   }
 
   onSwipe = (x, y, d) => {
+    let nd = 0;
+    if (d === "south") {
+      if (x == 0) {
+        nd = 0
+      } else if ( x == 1) {
+        nd = 1
+      } else if ( x == 2) {
+        nd = 2
+      }
+    } else if (d === "north") {
+      if (x == 2) {
+        nd = 6
+      } else if ( x == 1) {
+        nd = 7
+      } else if ( x == 0) {
+        nd = 8
+      }
+    } else if (d === "west") {
+      if (y == 0) {
+        nd = 3
+      } else if ( y == 1) {
+        nd = 4
+      } else if ( y == 0) {
+        nd = 5
+      }
+    } else if (d === "east") {
+      if (y == 2) {
+        nd = 9
+      } else if (y == 1) {
+        nd = 10
+      } else if (y == 0) {
+        nd = 11
+      }
+    }
     console.log(x)
     console.log(y)
-    console.log(d)
-    this.slidePressed({x,y,d})
+    console.log(nd)
+    this.slidePressed({x,y,d: nd})
   }
 
   render() {
@@ -143,7 +180,7 @@ export default class Court extends React.Component {
     }
     return (
      <View style={styles.game}>
-        <Card data={newCard} />
+        <Card data={newCard} onSwipe={() => {}} />
        <Row cards={cards[0]} y={0} onSwipe={this.onSwipe} />
        <Row cards={cards[1]} y={1} onSwipe={this.onSwipe} />
        <Row cards={cards[2]} y={2} onSwipe={this.onSwipe} />

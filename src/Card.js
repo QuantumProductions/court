@@ -16,27 +16,27 @@ onSwipe(gestureName, gestureState) {
 
     if (dx > 0) {
       if (dx > Math.abs(dy) * 5) {
-        onSwipe(x, y, 1)
+        onSwipe(x, y, "east")
       }
     }
 
     if (dx < 0) {
       if (dx < -Math.abs(dy) * 5) {
-			onSwipe(x, y, 3)
+			onSwipe(x, y, "west")
         return
       }
     }
 
     if (dy > 0) {
       if (dy > Math.abs(dx) * 5) {
-				onSwipe(x, y, 2)
+				onSwipe(x, y, "south")
         return
       }
     }
 
     if (dy < 0) {
       if (dy < -Math.abs(dx) * 5) {
-				onSwipe(x, y, 0)
+				onSwipe(x, y, "north")
         return
       }
     }
