@@ -2,8 +2,9 @@ import React from 'react'
 import {Dimensions, View, Text, Image, StyleSheet} from 'react-native'
 import Images from '../assets'
 const w = Dimensions.get('window').width
+const h = Dimensions.get('window').height
 const cardw = (w / 3)
-const cardh = cardw * 1.45
+const cardh = h / 5
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 
 export default class Card extends React.Component {
@@ -61,6 +62,7 @@ onSwipe(gestureName, gestureState) {
         >
 				<View style={styles.container}>
 				<Image
+          resizeMode='contain'
 					style={styles.image}
 					source={Images[p]}
 				/>
