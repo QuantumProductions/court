@@ -160,20 +160,20 @@ export default class Court extends React.Component {
     if (mode === 0) {
       const texts1 = [
         "Court is a 3x3 grid.",
-        "Win with 3 of the same aligned.",
+        "Win with 3 of the same rank aligned.",
         "Swipe to slide a row or column. Your New Card can only slide on if the old card rules match.",
 
       ]
       const texts2 = [
         "♦ off: Any card can slide on.",
-        "♥ off: any higher ♦♥♣♠.",
-        "♣ off: Any higher ♣ or any ♠."
+        "♥ off: any higher ♦♥♣♠ slides on.",
+        "♣ off: Any higher ♣ or any ♠ slides on."
       ]
 
       const texts3 = [
-        "♠ off: same value ♦♥♣ slides on.",
-        "Aces always slide on. Aces are low points.",
-        "Kings are high points. Good luck!"
+        "♠ off: same value ♦♥♣ slides on. Aces always slide on.",
+        "Aces are low points, Kings are high points.",
+        "Tap the button below to start."
       ]
 
       const courtText = game === 0 ? "HOLD COURT" : "CONTINUE COURT"
@@ -228,12 +228,13 @@ const styles = StyleSheet.create({
     paddingBottom: 20
   },
   text: {
+    fontFamily: 'blackchancery',
     color: '#fff',
+    backgroundColor: '#000',
     width: width,
-    fontWeight: 'bold',
     borderWidth: 1,
     fontSize: 36,
-    borderColor: 'white',
+    borderColor: '#fff',
     height: 44,
     textAlign: 'center',
     alignSelf: 'center'

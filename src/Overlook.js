@@ -23,7 +23,8 @@ export default class Overlook extends React.Component {
 const styles = StyleSheet.create({
   text: {
     color: '#fff',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'blackchancery'
   },
   help: {
     height: 44,

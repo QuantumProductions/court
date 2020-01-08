@@ -25,7 +25,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Allow Court to use your location</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -40,13 +40,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
 	<key>NSAppTransportSecurity</key>
-	<!--See http://ste.vn/2015/06/10/configuring-app-transport-security-ios-9-osx-10-11/ -->
 	<dict>
-    <key>NSAllowsArbitraryLoads</key>
-    <true/>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>localhost</key>
@@ -66,16 +63,18 @@
 	<string>Allow Court to use your location</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Allow Court to use your location</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow Court to use your location</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow Court to access your microphone</string>
 	<key>NSMotionUsageDescription</key>
-	<string>Allow Court to access your device's accelerometer</string>
+	<string>Allow Court to access your device&apos;s accelerometer</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Give Court periences permission to save photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Give Court periences permission to access your photos</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>blackchancery.TTF</string>
+	</array>
 	<key>NSRemindersUsageDescription</key>
 	<string>Allow Court to access your reminders</string>
 </dict>
