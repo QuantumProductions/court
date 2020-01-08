@@ -166,7 +166,7 @@ export default class Court extends React.Component {
       ]
       const texts2 = [
         "♦ off: Any card can slide on.",
-        "♥ off: any higher ♥ or any ♣",
+        "♥ off: any higher ♦♥♣♠.",
         "♣ off: Any higher ♣ or any ♠."
       ]
 
@@ -230,6 +230,7 @@ const styles = StyleSheet.create({
   text: {
     color: '#fff',
     width: width,
+    fontWeight: 'bold',
     borderWidth: 1,
     fontSize: 36,
     borderColor: 'white',

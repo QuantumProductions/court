@@ -18,7 +18,8 @@ export default class IntroCard extends React.Component {
 
 const styles = StyleSheet.create({
   text: {
-    color: '#fff'
+    color: '#fff',
+    fontSize: 16
   },
   container: {
   	alignItems: 'center',
