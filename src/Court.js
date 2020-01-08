@@ -126,7 +126,7 @@ export default class Court extends React.Component {
         nd = 3
       } else if ( y == 1) {
         nd = 4
-      } else if ( y == 0) {
+      } else if ( y == 2) {
         nd = 5
       }
     } else if (d === "east") {
