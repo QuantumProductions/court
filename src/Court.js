@@ -13,7 +13,7 @@ export default class Court extends React.Component {
     deck: [],
     discard: [],
     cards: [],
-    game: -1,
+    game: 0,
     newCard: {suit: "D", value: "a"},
     mode: 0
   }
@@ -80,19 +80,15 @@ export default class Court extends React.Component {
         cards: cards
       }, this.drawCard)
     }
-
-    console.log(`Slide pressed ${x} ${y} ${d}`);
   }
 
   setup()  {
-  console.log("Setup called")
     const {cards, deck, discard} = Deck.gameStart()
-    console.log(deck.length)
     this.setState({
       cards,
       deck,
       discard,
-      game: 1
+      game: 0
     }, this.drawCard)
   }
 
@@ -141,10 +137,13 @@ export default class Court extends React.Component {
         nd = 11
       }
     }
-    console.log(x)
-    console.log(y)
-    console.log(nd)
     this.slidePressed({x,y,d: nd})
+  }
+
+  courtButtonPressed = () => {
+    if (this.state.mode === 0) {
+      this.setState({mode: 1})
+    }
   }
 
   render() {
@@ -172,6 +171,8 @@ export default class Court extends React.Component {
         "Kings are high points. Good luck!"
       ]
 
+      const courtText = game === 0 ? "HOLD COURT" : "CONTINUE COURT"
+      console.log(game)
       return (
         <View style={styles.container}>
         <View style={styles.topCard}>
@@ -182,6 +183,11 @@ export default class Court extends React.Component {
          <IntroRow texts={texts2} />
          <IntroRow texts={texts3} />
        </View>
+       <TouchableOpacity style={styles.button} onPress={this.courtButtonPressed} >
+          <Text style={styles.text}>
+            {courtText}
+          </Text>
+       </TouchableOpacity>
        </View>
       )
     }
@@ -207,15 +213,20 @@ const styles = StyleSheet.create({
   game: {
     justifyContent: 'flex-end',
     flex: 1,
-    paddingBottom: 44
   },
   container: {
     backgroundColor: '#000',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    paddingBottom: 20
   },
   text: {
     color: '#fff',
-    width: 44,
-    height: 44
+    width: width,
+    borderWidth: 1,
+    fontSize: 36,
+    borderColor: 'white',
+    height: 44,
+    textAlign: 'center',
+    alignSelf: 'center'
   }
 });
