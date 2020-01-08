@@ -1,5 +1,5 @@
 import React from 'react'
-import {Dimensions, View, Text, Image, StyleSheet} from 'react-native'
+import {Dimensions, View, Text, StyleSheet} from 'react-native'
 import Card from './Card'
 const w = Dimensions.get('window').width
 

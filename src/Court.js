@@ -3,36 +3,10 @@ import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-nati
 import {Deck, nums} from './Deck'
 import Row from './Row'
 import Card from './Card'
+import IntroCard from './IntroCard'
+import IntroRow from './IntroRow'
 
 const width = Dimensions.get('window').width
-const itemDimension = 80
-
-//0 button 1 card
-//0123 nesw
-
-//12 buttons in clockwise
-const b0  = {x: 0, y: 0, d: 0, b: true}
-const b1  = {x: 1, y: 0, d: 1, b: true}
-const b2  = {x: 2, y: 0, d: 2, b: true}
-const b3  = {x: 2, y: 0, d: 3, b: true}
-const b4  = {x: 2, y: 1, d: 4, b: true}
-const b5  = {x: 2, y: 1, d: 5, b: true}
-const b6  = {x: 2, y: 2, d: 6, b: true}
-const b7  = {x: 1, y: 2, d: 7, b: true}
-const b8  = {x: 0, y: 2, d: 8, b: true}
-const b9  = {x: 0, y: 2, d: 9, b: true}
-const b10 = {x: 0, y: 1, d: 10, b: true}
-const b11 = {x: 0, y: 0, d: 11, b: true}
-
-const c0  = {x: 0, y: 0}
-const c1  = {x: 1, y: 0}
-const c2  = {x: 2, y: 0}
-const c3  = {x: 0, y: 1}
-const c4  = {x: 1, y: 1}
-const c5  = {x: 2, y: 1}
-const c6  = {x: 0, y: 2}
-const c7  = {x: 1, y: 2}
-const c8  = {x: 2, y: 2}
 
 export default class Court extends React.Component {
   state = {
@@ -40,7 +14,8 @@ export default class Court extends React.Component {
     discard: [],
     cards: [],
     game: -1,
-    newCard: {suit: "D", value: "a"}
+    newCard: {suit: "D", value: "a"},
+    mode: 0
   }
 
   canSlide(cardOff, newCard) {
@@ -173,10 +148,42 @@ export default class Court extends React.Component {
   }
 
   render() {
-    const {game, cards, newCard} = this.state;
+    const {game, cards, newCard, mode} = this.state;
     if (game === -1) {
       console.log("Rendering null")
       return (<View />)
+    }
+    if (mode === 0) {
+      const texts1 = [
+        "Court is a 3x3 grid.",
+        "Win with 3 of the same aligned.",
+        "Swipe to slide a row or column. Your New Card can only slide on if the old card rules match.",
+
+      ]
+      const texts2 = [
+        "♦ off: Any card can slide on.",
+        "♥ off: any higher ♥ or any ♣",
+        "♣ off: Any higher ♣ or any ♠."
+      ]
+
+      const texts3 = [
+        "♠ off: same value ♦♥♣ slides on.",
+        "Aces always slide on. Aces are low points.",
+        "Kings are high points. Good luck!"
+      ]
+
+      return (
+        <View style={styles.container}>
+        <View style={styles.topCard}>
+          <IntroCard data="New Card" onSwipe={() => {}} />
+        </View>
+       <View style={styles.game}>
+         <IntroRow texts={texts1} />
+         <IntroRow texts={texts2} />
+         <IntroRow texts={texts3} />
+       </View>
+       </View>
+      )
     }
     return (
       <View style={styles.container}>
