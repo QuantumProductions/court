@@ -5,6 +5,7 @@ import Row from './Row'
 import Card from './Card'
 import IntroCard from './IntroCard'
 import IntroRow from './IntroRow'
+import Overlook from './Overlook'
 
 const width = Dimensions.get('window').width
 
@@ -140,6 +141,10 @@ export default class Court extends React.Component {
     this.slidePressed({x,y,d: nd})
   }
 
+  helpPressed = () => {
+    this.setState({mode: 0})
+  }
+
   courtButtonPressed = () => {
     if (this.state.mode === 0) {
       this.setState({mode: 1})
@@ -193,8 +198,9 @@ export default class Court extends React.Component {
     }
     return (
       <View style={styles.container}>
-        <View style={styles.topCard}>
+        <View style={styles.topRow}>
           <Card data={newCard} onSwipe={() => {}} />
+          <Overlook data={this.state} helpPressed={this.helpPressed} />
         </View>
      <View style={styles.game}>
        <Row cards={cards[0]} y={0} onSwipe={this.onSwipe} />
@@ -207,8 +213,10 @@ export default class Court extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  topCard: {
-    marginTop: 20
+  topRow: {
+    marginTop: 20,
+    flexDirection: 'row',
+    width: width
   },
   game: {
     justifyContent: 'flex-end',

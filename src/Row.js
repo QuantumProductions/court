@@ -20,6 +20,5 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
 		width: w,
-		backgroundColor: 'red'
 	}
 })
