@@ -1,2 +1,5 @@
 ios/build/*
 node_modules/*
+
+ios/Court.xcworkspace/xcshareddata/
+ios/Court.xcworkspace/xcuserdata/combo.zone.xcuserdatad/
