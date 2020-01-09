@@ -73,11 +73,51 @@ export default class Court extends React.Component {
     let firstCard = cards[p1[1]][p1[0]]
     let newCards = [null, null, null]
     if (this.canSlide(cardOff, newCard)) {
-      cards[p3[1]][p3[0]] = middleCard
-      cards[p2[1]][p2[0]] = firstCard
-      cards[p1[1]][p1[0]] = newCard
+      this.positions = positions
+      this.middleCard = middleCard
+      this.firstCard = firstCard
+      this.newCard = newCard
+
+      cards[p3[1]][p3[0]].card2 = middleCard
+      cards[p2[1]][p2[0]].card2 = firstCard
+      cards[p1[1]][p1[0]].card2 = newCard
 
       this.setState({
+        animation: {
+          animationP: 0.0,
+          animationDirection: "east"
+        },
+        cards: cards
+      }, () => {
+        setTimeout(this.animatePForward, 1000)
+        //after animation
+      //   cards[p3[1]][p3[0]] = middleCard
+      //   cards[p2[1]][p2[0]] = firstCard
+      //   cards[p1[1]][p1[0]] = newCard
+
+      // this.setState({
+      //   animation: null,
+      //   cards: cards
+      // }, this.drawCard)
+    })
+    }
+  }
+
+  animatePForward = () => {
+    if (this.state.animationP < 1) {
+       setTimeout(this.animatePForward, 1000)
+       this.setState({
+        animationP: this.state.animationP + 0.1
+       })
+    } else {
+      let {cards} = this.state
+      let [p1,p2,p3] = this.positions
+         cards[p3[1]][p3[0]] = this.middleCard
+        cards[p2[1]][p2[0]] = this.firstCard
+        cards[p1[1]][p1[0]] = this.newCard
+
+      this.setState({
+        animation: null,
         cards: cards
       }, this.drawCard)
     }
@@ -138,6 +178,7 @@ export default class Court extends React.Component {
         nd = 11
       }
     }
+
     this.slidePressed({x,y,d: nd})
   }
 
@@ -199,7 +240,7 @@ export default class Court extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.topRow}>
-          <Card data={newCard} onSwipe={() => {}} />
+          <Card data={newCard} onSwipe={() => {}} animation={{animationP: 0.75, animationDirection: "east"}} />
           <Overlook data={this.state} helpPressed={this.helpPressed} />
         </View>
      <View style={styles.game}>
