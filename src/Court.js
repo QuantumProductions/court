@@ -14,7 +14,7 @@ export default class Court extends React.Component {
     deck: [],
     discard: [],
     cards: [],
-    game: 0,
+    game: -1,
     newCard: {suit: "D", value: "a"},
     mode: 0
   }
@@ -47,7 +47,7 @@ export default class Court extends React.Component {
     return newValue === offValue
   }
 
-  slidePressed = ({x, y, d}) => {
+  slidePressed = ({x, y, d}, direction) => {
     const lists = [
       [[0,0], [0,1], [0,2]],
       [[1,0], [1,1], [1,2]],
@@ -86,7 +86,7 @@ export default class Court extends React.Component {
       this.setState({
         animation: {
           animationP: 0.1,
-          animationDirection: "east"
+          animationDirection: direction
         },
         cards: cards
       }, () => {
@@ -123,11 +123,13 @@ export default class Court extends React.Component {
          cards[p3[1]][p3[0]] = {...this.middleCard, card2: null}
         cards[p2[1]][p2[0]] = {...this.firstCard, card2: null}
         cards[p1[1]][p1[0]] = {...this.newCard, card2: null}
-
-      this.setState({
+        setTimeout( () => {
+ this.setState({
         animation: null,
         cards: cards
       }, this.drawCard)
+        }, 1000)
+     
     }
   }
 
@@ -187,7 +189,9 @@ export default class Court extends React.Component {
       }
     }
 
-    this.slidePressed({x,y,d: nd})
+    this.direction = d
+
+    this.slidePressed({x,y,d: nd}, d)
   }
 
   helpPressed = () => {
@@ -203,7 +207,7 @@ export default class Court extends React.Component {
   render() {
     const {game, cards, newCard, mode, animation} = this.state;
     if (game === -1) {
-      const animation = {animationP: 0.6, animationDirection: "east"}
+      const animation = {animationP: 0.8, animationDirection: "south"}
       return (
         <Card data={{...newCard, card2: {...newCard, value: "a"}}} animation={animation} />
       )

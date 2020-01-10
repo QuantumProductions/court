@@ -68,8 +68,20 @@ onSwipe(gestureName, gestureState) {
     let imageStyle1 = styles.image
     let imageStyle2 = imageStyle1
     if (animationP) {
-      imageStyle1 = {...imageStyle1, left: cardw * animationP}
-      imageStyle2 = {...imageStyle2, right: cardw * (1 - animationP)}
+      //east
+      if (animationDirection === "east") {
+        imageStyle1 = {...imageStyle1, left: cardw * animationP}
+        imageStyle2 = {...imageStyle2, right: cardw * (1 - animationP)}
+      } else if (animationDirection === "west") {
+        imageStyle1 = {...imageStyle1, right: cardw * animationP}
+        imageStyle2 = {...imageStyle2, left: cardw * (1 - animationP)}
+      } else if (animationDirection === "south") {
+        imageStyle1 = {...imageStyle1, top: cardw * animationP}
+        imageStyle2 = {...imageStyle2, bottom: cardw * (1 - animationP)}
+      } else if (animationDirection === "north") {
+        imageStyle1 = {...imageStyle1, bottom: cardw * animationP}
+        imageStyle2 = {...imageStyle2, top: cardw * (1 - animationP)}
+      } 
     }
 
 		const config = {
@@ -117,6 +129,6 @@ const styles = StyleSheet.create({
   	width: cardw,
   	height: cardh,
     overflow: 'hidden',
-    flexDirection: 'row'
+    flexDirection: 'column'
   }
 });
