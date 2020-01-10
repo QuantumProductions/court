@@ -104,10 +104,15 @@ export default class Court extends React.Component {
   }
 
   animatePForward = () => {
-    if (this.state.animationP < 1) {
+    console.log(`Animating PForward ${this.state.animation.animationP}`)
+    const {animation} = this.state
+    if (animation.animationP < 1) {
        setTimeout(this.animatePForward, 1000)
        this.setState({
-        animationP: this.state.animationP + 0.1
+        animation: {
+          ...animation,
+          animationP: animation.animationP + 0.11,
+        }
        })
     } else {
       let {cards} = this.state
@@ -193,7 +198,7 @@ export default class Court extends React.Component {
   }
 
   render() {
-    const {game, cards, newCard, mode} = this.state;
+    const {game, cards, newCard, mode, animation} = this.state;
     if (game === -1) {
       console.log("Rendering null")
       return (<View />)
@@ -237,16 +242,21 @@ export default class Court extends React.Component {
        </View>
       )
     }
+
+    let animationP = 1.0
+    if (animation) {
+      animationP = animation.animationP
+    }
     return (
       <View style={styles.container}>
         <View style={styles.topRow}>
-          <Card data={newCard} onSwipe={() => {}} animation={{animationP: 0.75, animationDirection: "east"}} />
+          <Card data={newCard} onSwipe={() => {}} animation={{animationP: animationP, animationDirection: "east"}} />
           <Overlook data={this.state} helpPressed={this.helpPressed} />
         </View>
      <View style={styles.game}>
-       <Row cards={cards[0]} y={0} onSwipe={this.onSwipe} />
-       <Row cards={cards[1]} y={1} onSwipe={this.onSwipe} />
-       <Row cards={cards[2]} y={2} onSwipe={this.onSwipe} />
+       <Row cards={cards[0]} y={0} onSwipe={this.onSwipe} animation={animation} />
+       <Row cards={cards[1]} y={1} onSwipe={this.onSwipe} animation={animation} />
+       <Row cards={cards[2]} y={2} onSwipe={this.onSwipe} animation={animation} />
      </View>
      </View>
     )
