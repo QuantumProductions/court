@@ -104,8 +104,10 @@ export default class Court extends React.Component {
   }
 
   animatePForward = () => {
-    console.log(`Animating PForward ${this.state.animation.animationP}`)
     const {animation} = this.state
+    if (!animation) {
+      return
+    }
     if (animation.animationP < 1) {
        setTimeout(this.animatePForward, 1000)
        this.setState({
@@ -200,7 +202,11 @@ export default class Court extends React.Component {
   render() {
     const {game, cards, newCard, mode, animation} = this.state;
     if (game === -1) {
-      console.log("Rendering null")
+      const animation = {animationP: 0.1, animationDirection: "east"}
+      return (
+        <Card data={{...newCard, card2: newCard}} animation={animation} />
+      )
+
       return (<View />)
     }
     if (mode === 0) {

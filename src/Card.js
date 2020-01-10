@@ -57,10 +57,12 @@ onSwipe(gestureName, gestureState) {
 
     let animationDirection = null
     let animationP = 0
-    if (animation) {
+    console.log("My animation" + animation)
+    console.log("My card2" + card2)
+    if (animation && card2) {
       animationDirection = animation.animationDirection
       animationP = animation.animationP
-
+      console.log("Animation" + animationP)
     }
 
     let imageStyle1 = styles.image
@@ -75,7 +77,7 @@ onSwipe(gestureName, gestureState) {
       directionalOffsetThreshold: 80
     };
 
-    let containerStyle = styles.container
+    let containerStyle = {...styles.container, flexDirection: 'row'}
 
 		return (
 			<GestureRecognizer
@@ -106,12 +108,14 @@ const styles = StyleSheet.create({
   },
   image: {
   	width: cardw,
-  	height: cardh
+  	height: cardh,
+    overflow: 'hidden'
   },
   container: {
   	alignItems: 'center',
   	justifyContent: 'center',
   	width: cardw,
   	height: cardh,
+    overflow: 'hidden'
   }
 });
