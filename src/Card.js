@@ -59,7 +59,7 @@ onSwipe(gestureName, gestureState) {
     let animationP = 0
     console.log("My animation" + animation)
     console.log("My card2" + card2)
-    if (animation && card2) {
+    if (animation && card2 && animation.animationP > 0) {
       animationDirection = animation.animationDirection
       animationP = animation.animationP
       console.log("Animation" + animationP)
@@ -67,7 +67,7 @@ onSwipe(gestureName, gestureState) {
 
     let imageStyle1 = styles.image
     let imageStyle2 = imageStyle1
-    if (animationP) {
+    if (animationP && card2) {
       //east
       if (animationDirection === "east") {
         imageStyle1 = {...imageStyle1, left: cardw * animationP}

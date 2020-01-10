@@ -85,7 +85,7 @@ export default class Court extends React.Component {
 
       this.setState({
         animation: {
-          animationP: 0.1,
+          animationP: 0.0,
           animationDirection: direction
         },
         cards: cards
@@ -110,25 +110,25 @@ export default class Court extends React.Component {
       return
     }
     if (animation.animationP < 1) {
-       setTimeout(this.animatePForward, 50)
+       setTimeout(this.animatePForward, 5)
        this.setState({
         animation: {
           ...animation,
-          animationP: Math.min(1.0, animation.animationP + 0.11),
+          animationP: Math.min(1, animation.animationP + 0.01),
         }
        })
     } else {
       let {cards} = this.state
       let [p1,p2,p3] = this.positions
-         cards[p3[1]][p3[0]] = {...this.middleCard, card2: null}
-        cards[p2[1]][p2[0]] = {...this.firstCard, card2: null}
-        cards[p1[1]][p1[0]] = {...this.newCard, card2: null}
+         cards[p3[1]][p3[0]] = {...this.middleCard, card2: this.middleCard}
+        cards[p2[1]][p2[0]] = {...this.firstCard, card2: this.firstCard}
+        cards[p1[1]][p1[0]] = {...this.newCard, card2: this.newCard}
         setTimeout( () => {
  this.setState({
         animation: null,
         cards: cards
       }, this.drawCard)
-        }, 1000)
+        }, 5)
      
     }
   }
@@ -154,6 +154,9 @@ export default class Court extends React.Component {
   }
 
   onSwipe = (x, y, d) => {
+    if (this.state.animation) {
+      return
+    }
     let nd = 0;
     if (d === "south") {
       if (x == 0) {
