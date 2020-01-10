@@ -20,6 +20,7 @@ export default class Court extends React.Component {
   }
 
   canSlide(cardOff, newCard) {
+    return true
     if (newCard.value === "a") {
       return true
     }
@@ -84,12 +85,12 @@ export default class Court extends React.Component {
 
       this.setState({
         animation: {
-          animationP: 0.0,
+          animationP: 0.1,
           animationDirection: "east"
         },
         cards: cards
       }, () => {
-        setTimeout(this.animatePForward, 1000)
+        setTimeout(this.animatePForward, 1)
         //after animation
       //   cards[p3[1]][p3[0]] = middleCard
       //   cards[p2[1]][p2[0]] = firstCard
@@ -109,19 +110,19 @@ export default class Court extends React.Component {
       return
     }
     if (animation.animationP < 1) {
-       setTimeout(this.animatePForward, 1000)
+       setTimeout(this.animatePForward, 50)
        this.setState({
         animation: {
           ...animation,
-          animationP: animation.animationP + 0.11,
+          animationP: Math.min(1.0, animation.animationP + 0.11),
         }
        })
     } else {
       let {cards} = this.state
       let [p1,p2,p3] = this.positions
-         cards[p3[1]][p3[0]] = this.middleCard
-        cards[p2[1]][p2[0]] = this.firstCard
-        cards[p1[1]][p1[0]] = this.newCard
+         cards[p3[1]][p3[0]] = {...this.middleCard, card2: null}
+        cards[p2[1]][p2[0]] = {...this.firstCard, card2: null}
+        cards[p1[1]][p1[0]] = {...this.newCard, card2: null}
 
       this.setState({
         animation: null,
@@ -202,9 +203,9 @@ export default class Court extends React.Component {
   render() {
     const {game, cards, newCard, mode, animation} = this.state;
     if (game === -1) {
-      const animation = {animationP: 0.1, animationDirection: "east"}
+      const animation = {animationP: 0.6, animationDirection: "east"}
       return (
-        <Card data={{...newCard, card2: newCard}} animation={animation} />
+        <Card data={{...newCard, card2: {...newCard, value: "a"}}} animation={animation} />
       )
 
       return (<View />)

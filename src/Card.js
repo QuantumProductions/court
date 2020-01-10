@@ -68,8 +68,8 @@ onSwipe(gestureName, gestureState) {
     let imageStyle1 = styles.image
     let imageStyle2 = imageStyle1
     if (animationP) {
-      imageStyle1 = {...imageStyle1, marginLeft: cardw * 2 * animationP}
-      imageStyle2 = {...imageStyle2, marginLeft: cardw * 2 * (1 - animationP)}
+      imageStyle1 = {...imageStyle1, left: cardw * animationP}
+      imageStyle2 = {...imageStyle2, right: cardw * (1 - animationP)}
     }
 
 		const config = {
@@ -77,7 +77,7 @@ onSwipe(gestureName, gestureState) {
       directionalOffsetThreshold: 80
     };
 
-    let containerStyle = {...styles.container, flexDirection: 'row'}
+    let containerStyle = {...styles.container}
 
 		return (
 			<GestureRecognizer
@@ -86,7 +86,7 @@ onSwipe(gestureName, gestureState) {
         onSwipe={(direction, state) => this.onSwipe(direction, state)}
         >
 				<View style={containerStyle}>
-				<Image
+        <Image
           resizeMode='contain'
 					style={imageStyle1}
 					source={Images[p]}
@@ -107,15 +107,16 @@ const styles = StyleSheet.create({
     color: '#fff'
   },
   image: {
+    position: 'absolute',
   	width: cardw,
   	height: cardh,
     overflow: 'hidden'
   },
   container: {
-  	alignItems: 'center',
   	justifyContent: 'center',
   	width: cardw,
   	height: cardh,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    flexDirection: 'row'
   }
 });
