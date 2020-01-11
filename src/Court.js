@@ -110,11 +110,11 @@ export default class Court extends React.Component {
       return
     }
     if (animation.animationP < 1) {
-       setTimeout(this.animatePForward, 5)
+       setTimeout(this.animatePForward, 50)
        this.setState({
         animation: {
           ...animation,
-          animationP: Math.min(1, animation.animationP + 0.01),
+          animationP: Math.min(1, animation.animationP + 0.1),
         }
        })
     } else {
@@ -123,12 +123,10 @@ export default class Court extends React.Component {
          cards[p3[1]][p3[0]] = {...this.middleCard, card2: this.middleCard}
         cards[p2[1]][p2[0]] = {...this.firstCard, card2: this.firstCard}
         cards[p1[1]][p1[0]] = {...this.newCard, card2: this.newCard}
-        setTimeout( () => {
- this.setState({
+      this.setState({
         animation: null,
         cards: cards
       }, this.drawCard)
-        }, 5)
      
     }
   }
@@ -257,7 +255,7 @@ export default class Court extends React.Component {
       )
     }
 
-    let animationP = 1.0
+    let animationP = null
     if (animation) {
       animationP = animation.animationP
     }
