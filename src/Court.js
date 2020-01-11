@@ -75,13 +75,13 @@ export default class Court extends React.Component {
     let newCards = [null, null, null]
     if (this.canSlide(cardOff, newCard)) {
       this.positions = positions
-      this.middleCard = middleCard
-      this.firstCard = firstCard
-      this.newCard = newCard
+      this.middleCard = {...middleCard, card2: null}
+      this.firstCard = {...firstCard, card2: null}
+      this.newCard = {...newCard, card2: null}
 
-      cards[p3[1]][p3[0]].card2 = {...middleCard, card2: null}
-      cards[p2[1]][p2[0]].card2 = {...firstCard, card2: null}
-      cards[p1[1]][p1[0]].card2 = {...newCard, card2: null}
+      cards[p3[1]][p3[0]].card2 = this.middleCard
+      cards[p2[1]][p2[0]].card2 = this.firstCard
+      cards[p1[1]][p1[0]].card2 = this.newCard
 
       this.setState({
         animation: {
@@ -90,16 +90,7 @@ export default class Court extends React.Component {
         },
         cards: cards
       }, () => {
-        setTimeout(this.animatePForward, 100)
-        //after animation
-      //   cards[p3[1]][p3[0]] = middleCard
-      //   cards[p2[1]][p2[0]] = firstCard
-      //   cards[p1[1]][p1[0]] = newCard
-
-      // this.setState({
-      //   animation: null,
-      //   cards: cards
-      // }, this.drawCard)
+        this.animatePForward()
     })
     }
   }
@@ -110,25 +101,24 @@ export default class Court extends React.Component {
       return
     }
     if (animation.animationP < 1) {
-       setTimeout(this.animatePForward, 1000)
        this.setState({
         animation: {
           ...animation,
-          animationP: Math.min(1.0, animation.animationP + 0.11),
+          animationP: Math.min(1.0, animation.animationP + 0.3),
         }
+       }, () => {
+        setTimeout(this.animatePForward, 50)
        })
     } else {
       let {cards} = this.state
       let [p1,p2,p3] = this.positions
-         cards[p3[1]][p3[0]] = {...this.middleCard, card2: null}
-        cards[p2[1]][p2[0]] = {...this.firstCard, card2: null}
-        cards[p1[1]][p1[0]] = {...this.newCard, card2: null}
-        setTimeout( () => {
-this.setState({
+         cards[p3[1]][p3[0]] = this.middleCard
+        cards[p2[1]][p2[0]] = this.firstCard
+        cards[p1[1]][p1[0]] = this.newCard
+      this.setState({
         animation: null,
         cards: cards
-      }, this.drawCard)
-}, 1000)
+      })
  
     }
   }
