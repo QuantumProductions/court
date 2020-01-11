@@ -50,11 +50,6 @@ onSwipe(gestureName, gestureState) {
 		let p = `${value}_of_${suitName}`
 
     let p2 = null
-    if (card2) {
-      const suitName2 = {"D": "diamonds", "H" : "hearts", "C": "clubs", "S": "spades"}[card2.suit]
-      p2 = `${card2.value}_of_${suitName2}`
-    }
-
     let animationDirection = null
     let animationP = 0
     console.log("My animation" + animation)
@@ -62,12 +57,15 @@ onSwipe(gestureName, gestureState) {
     if (animation && card2) {
       animationDirection = animation.animationDirection
       animationP = animation.animationP
-      console.log("Animation" + animationP)
     }
 
     let imageStyle1 = styles.image
     let imageStyle2 = imageStyle1
     if (animationP) {
+      if (card2) {
+        const suitName2 = {"D": "diamonds", "H" : "hearts", "C": "clubs", "S": "spades"}[card2.suit]
+        p2 = `${card2.value}_of_${suitName2}`
+      }
       //east
       if (animationDirection === "east") {
         imageStyle1 = {...imageStyle1, left: cardw * animationP}
@@ -76,11 +74,11 @@ onSwipe(gestureName, gestureState) {
         imageStyle1 = {...imageStyle1, right: cardw * animationP}
         imageStyle2 = {...imageStyle2, left: cardw * (1 - animationP)}
       } else if (animationDirection === "south") {
-        imageStyle1 = {...imageStyle1, top: cardw * animationP}
-        imageStyle2 = {...imageStyle2, bottom: cardw * (1 - animationP)}
+        imageStyle1 = {...imageStyle1, top: cardh * animationP}
+        imageStyle2 = {...imageStyle2, bottom: cardh * (1 - animationP)}
       } else if (animationDirection === "north") {
-        imageStyle1 = {...imageStyle1, bottom: cardw * animationP}
-        imageStyle2 = {...imageStyle2, top: cardw * (1 - animationP)}
+        imageStyle1 = {...imageStyle1, bottom: cardh * animationP}
+        imageStyle2 = {...imageStyle2, top: cardh * (1 - animationP)}
       } 
     }
 
