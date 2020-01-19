@@ -67,6 +67,21 @@ export default class Court extends React.Component {
       [[0,0], [1,0], [2,0]]
     ]
 
+    const newCardPositions = [
+      [0, 0],
+      [1, 0],
+      [2, 0],
+      [2, 0],
+      [2, 1],
+      [2, 2],
+      [2, 2],
+      [1, 2],
+      [0, 2],
+      [0, 2],
+      [1, 1],
+      [0, 0]
+    ]
+
     console.log("My direction" + direction)
     console.log("Which nd" + d)
 
@@ -85,13 +100,17 @@ export default class Court extends React.Component {
       cards[p3[1]][p3[0]].slideDirection = direction
       cards[p2[1]][p2[0]].slideDirection = direction
       cards[p1[1]][p1[0]].slideDirection = direction
+      let [ncx, ncy] = newCardPositions[d]
+      newCard.x = ncx
+      newCard.y = ncy
 
       this.setState({
         animation: {
           animationP: 0.0,
           animationDirection: direction
         },
-        cards: cards
+        cards: cards,
+        newCard: newCard
       }, () => {
         this.animatePForward()
     })
@@ -110,7 +129,7 @@ export default class Court extends React.Component {
           animationP: Math.min(1.0, animation.animationP + 0.1),
         }
        }, () => {
-        setTimeout(this.animatePForward, 1000)
+        setTimeout(this.animatePForward, 50)
        })
     } else {
       let {cards} = this.state
@@ -224,9 +243,8 @@ export default class Court extends React.Component {
               break;
             case "west":
               leftX -= (animation.animationP * cardw)
-
+              break;
           }
-          
         }
         let cardView = <Card x={x} y={y} data={c} style={{position: 'absolute', left: leftX, bottom: bottomY}} onSwipe={this.onSwipe} />
         views.push(cardView)
@@ -241,6 +259,35 @@ export default class Court extends React.Component {
       }
       x = 0
       bottomY -= yIncrement
+    }
+
+    if (animation) {
+      let {x, y} = this.state.newCard
+      let newCardBottomY
+      if (y === 0) {
+        newCardBottomY = cardh * 3;
+      } else if (y === 1) {
+        newCardBottomY = cardh * 2
+      } else {
+        newCardBottomY = cardh
+      }
+
+      console.log("My ncby" + newCardBottomY + "my y" + y)
+
+      let newCardStyle
+      switch (animation.animationDirection) {
+        case "east":
+          newCardStyle = {position: 'absolute', left: -cardw + ( animation.animationP * cardw), bottom: newCardBottomY}
+          break;
+        case "west":
+          newCardStyle = {position: 'absolute', left: width - (animation.animationP * cardw),  bottom: newCardBottomY}
+          break;
+      }
+
+      console.log(`${JSON.stringify(newCardStyle)} ncs`)
+
+      let newCard = <Card x={x} y={y} data={this.state.newCard} onSwipe={() => {}} style={newCardStyle} />
+      views.push(newCard)
     }
 
     return views
