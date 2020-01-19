@@ -8,6 +8,7 @@ import IntroRow from './IntroRow'
 import Overlook from './Overlook'
 
 const width = Dimensions.get('window').width
+const height = Dimensions.get('window').height
 
 export default class Court extends React.Component {
   state = {
@@ -308,8 +309,8 @@ export default class Court extends React.Component {
           <Card data={newCard} onSwipe={() => {}} animation={{animationP: animationP, animationDirection: "east"}} />
         </View>
         <View style={styles.overlook}>
-            <Overlook data={this.state} helpPressed={this.helpPressed} />
-          </View>
+          <Overlook data={this.state} helpPressed={this.helpPressed} />
+        </View>
      <View style={styles.game}>
       {rows}
      </View>
@@ -327,17 +328,20 @@ const styles = StyleSheet.create({
   topRow: {
     top: 20,
     left: 0,
+    position: 'absolute',
     flexDirection: 'row',
     width: width
   },
   game: {
     justifyContent: 'flex-end',
-    flex: 1,
+    height: cardh * 3
   },
   container: {
     backgroundColor: '#000',
     justifyContent: 'flex-end',
-    paddingBottom: 20
+    paddingBottom: 20,
+    width: width,
+    height: height
   },
   text: {
     fontFamily: 'blackchancery',
