@@ -10,10 +10,10 @@ import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 class Card extends React.Component {
 onSwipe(gestureName, gestureState) {
     const {x, y, onSwipe} = this.props
-    console.log(gestureName);
-    console.log(gestureState);
+    // console.log(gestureName);
+    // console.log(gestureState);
     const { dx, dy} = gestureState;
-    console.log(`${dx} ${dy}`)
+    // console.log(`${dx} ${dy}`)
 
     if (dx > 0) {
       if (dx > Math.abs(dy) * 5) {
@@ -52,8 +52,8 @@ onSwipe(gestureName, gestureState) {
     let p2 = null
     let animationDirection = null
     let animationP = 0
-    console.log("My animation" + animation)
-    console.log("My card2" + card2)
+    // console.log("My animation" + animation)
+    // console.log("My card2" + card2)
     if (animation && card2) {
       animationDirection = animation.animationDirection
       animationP = animation.animationP

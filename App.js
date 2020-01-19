@@ -10,6 +10,8 @@ export default function App() {
   );
 }
 
+console.disableYellowBox = true;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

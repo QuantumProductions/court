@@ -7,8 +7,6 @@ import IntroCard from './IntroCard'
 import IntroRow from './IntroRow'
 import Overlook from './Overlook'
 
-console.log("imported card" + Card)
-
 const width = Dimensions.get('window').width
 
 export default class Court extends React.Component {
@@ -68,22 +66,24 @@ export default class Court extends React.Component {
       [[0,0], [1,0], [2,0]]
     ]
 
+    console.log("My direction" + direction)
+    console.log("Which nd" + d)
+
     let positions = lists[d]
     let [p1,p2,p3] = positions
+    console.log("The 3 positions")
+    console.log(positions)
+
     let {newCard, cards, deck} = this.state
     let cardOff = cards[p3[1]][p3[0]]
     let middleCard = cards[p2[1]][p2[0]]
     let firstCard = cards[p1[1]][p1[0]]
     let newCards = [null, null, null]
     if (this.canSlide(cardOff, newCard)) {
-      this.positions = positions
-      this.middleCard = {...middleCard, card2: null}
-      this.firstCard = {...firstCard, card2: null}
-      this.newCard = {...newCard, card2: null}
-
-      cards[p3[1]][p3[0]].card2 = this.middleCard
-      cards[p2[1]][p2[0]].card2 = this.firstCard
-      cards[p1[1]][p1[0]].card2 = this.newCard
+      // this.positions = positions
+      cards[p3[1]][p3[0]].slideDirection = direction
+      cards[p2[1]][p2[0]].slideDirection = direction
+      cards[p1[1]][p1[0]].slideDirection = direction
 
       this.setState({
         animation: {
@@ -113,10 +113,10 @@ export default class Court extends React.Component {
        })
     } else {
       let {cards} = this.state
-      let [p1,p2,p3] = this.positions
-         cards[p3[1]][p3[0]] = this.middleCard
-        cards[p2[1]][p2[0]] = this.firstCard
-        cards[p1[1]][p1[0]] = this.newCard
+      // let [p1,p2,p3] = this.positions
+        //  cards[p3[1]][p3[0]] = this.middleCard
+        // cards[p2[1]][p2[0]] = this.firstCard
+        // cards[p1[1]][p1[0]] = this.newCard
       this.setState({
         animation: null,
         cards: cards
@@ -149,6 +149,7 @@ export default class Court extends React.Component {
     if (this.state.animation) {
       return
     }
+    console.log("Swiping with a d" + d + "x: " +x + "y" + y)
     let nd = 0;
     if (d === "south") {
       if (x == 0) {
@@ -185,8 +186,9 @@ export default class Court extends React.Component {
     }
 
     this.direction = d
-
-    this.slidePressed({x,y,d: nd}, d)
+    let dirs = {south: 0, west: 1, north: 2, east: 3}
+    console.log("The nd should be" + nd)
+    this.slidePressed({x,y,d: nd}, dirs[d])
   }
 
   helpPressed = () => {
@@ -199,23 +201,35 @@ export default class Court extends React.Component {
     }
   }
 
-  createRows = (cards) => {
+  createRows = (cards, animation) => {
     let views = []
     let bottomY = cardh * 3
-    let leftX = 0
+    let leftXReset = 0
 
     let yIncrement = cardh
     let xIncrement = cardw
 
+    let x = 0
+    let y = 0
+
     for (let cardRow of cards) {
       for (let c of cardRow) {
-        let cardView = <Card data={c} style={{position: 'absolute', left: leftX, bottom: bottomY}} />
-        views.push(cardView)
-        leftX += xIncrement
-        if (views.length % 3 === 0) {
-          leftX = 0
+        leftX = leftXReset
+        if (animation && c.slideDirection == animation.animationDirection && animation.animationP) {
+          leftX += (animation.animationP * cardw)
         }
+        let cardView = <Card x={x} y={y} data={c} style={{position: 'absolute', left: leftX, bottom: bottomY}} onSwipe={this.onSwipe} />
+        views.push(cardView)
+        leftXReset += xIncrement
+        if (views.length % 3 === 0) {
+          leftXReset = 0
+          y++
+          x = 0
+        }
+        x++
+        leftX = leftXReset
       }
+      x = 0
       bottomY -= yIncrement
     }
 
@@ -253,7 +267,7 @@ export default class Court extends React.Component {
 
       const courtText = game === 0 ? "HOLD COURT" : "CONTINUE COURT"
 
-      const rows = this.createRows(cards)
+      const rows = this.createRows(cards, animation)
 
       return (
         <View style={styles.container}>
