@@ -228,7 +228,8 @@ export default class Court extends React.Component {
 
   createRows = (cards, animation) => {
     let views = []
-    let bottomY = cardh * 3
+    let bottomYReset = cardh * 3
+    let bottomY = bottomYReset
     let leftXReset = 0
 
     let yIncrement = cardh
@@ -238,17 +239,22 @@ export default class Court extends React.Component {
     let y = 0
 
     for (let cardRow of cards) {
+      bottomY = bottomYReset
       for (let c of cardRow) {
         leftX = leftXReset
         if (animation && c.slideDirection == animation.animationDirection && animation.animationP) {
-          console.log(animation.animationDirection)
-          switch (animation.animationDirection) {
-            case "east":
-              leftX += (animation.animationP * cardw)
-              break;
-            case "west":
-              leftX -= (animation.animationP * cardw)
-              break;
+          if (animation.animationDirection === "east") {
+            console.log("East")
+            leftX += (animation.animationP * cardw)
+          } else if (animation.animationDirection === "west") {
+            console.log("West")
+            leftX -= (animation.animationP * cardw)
+          } else if (animation.animationDirection === "north") {
+            console.log("North")
+            bottomY += (animation.animationP * cardh)
+          } else if (animation.animationDirection === "south") {
+            bottomY -= (animation.animationP * cardh)
+            console.log("South")
           }
         }
         let cardKey = "Card" + c.suit + "v" + c.value
@@ -262,30 +268,39 @@ export default class Court extends React.Component {
         }
         x++
         leftX = leftXReset
+        bottomY = bottomYReset
       }
       x = 0
-      bottomY -= yIncrement
+      bottomYReset -= yIncrement
+
     }
 
     if (animation) {
       let {x, y} = this.state.newCard
       let newCardBottomY
-      if (y === 0) {
-        newCardBottomY = cardh * 3;
-      } else if (y === 1) {
-        newCardBottomY = cardh * 2
+      if (animation.animationDirection === "west" || animation.animationDirection === "east") {
+        if (y === 0) {
+          newCardBottomY = cardh * 3;
+        } else if (y === 1) {
+          newCardBottomY = cardh * 2
+        } else {
+          newCardBottomY = cardh
+        }
+      } else if (animation.animationDirection === "north") {
+        newCardBottomY = 0
       } else {
-        newCardBottomY = cardh
+        newCardBottomY = cardh * 2
       }
 
       let newCardStyle
-      switch (animation.animationDirection) {
-        case "east":
-          newCardStyle = {position: 'absolute', left: -cardw + ( animation.animationP * cardw), bottom: newCardBottomY}
-          break;
-        case "west":
-          newCardStyle = {position: 'absolute', left: width - (animation.animationP * cardw),  bottom: newCardBottomY}
-          break;
+      if (animation.animationDirection === "east") {
+        newCardStyle = {position: 'absolute', left: -cardw + ( animation.animationP * cardw), bottom: newCardBottomY}
+      } else if (animation.animationDirection === "west") {
+        newCardStyle = {position: 'absolute', left: width - (animation.animationP * cardw),  bottom: newCardBottomY}
+      } else if (animation.animationDirection === "north") {
+        newCardStyle = {position: 'absolute', left: cardw * x,  bottom: newCardBottomY + (animation.animationP * cardh)}
+      } else if (animation.animationDirection === "south") {
+        newCardStyle = {position: 'absolute', left: cardw * x,  bottom: newCardBottomY - (animation.animationP * cardh)}
       }
       let newCardKey = "Card" + this.state.newCard.suit + "v" + this.state.newCard.value
       let newCard = <Card key={newCardKey} x={x} y={y} data={this.state.newCard} onSwipe={() => {}} style={newCardStyle} />
@@ -385,7 +400,8 @@ const styles = StyleSheet.create({
   },
   game: {
     justifyContent: 'flex-end',
-    height: cardh * 3
+    height: cardh * 3,
+    overflow: 'hidden'
   },
   container: {
     backgroundColor: '#000',
