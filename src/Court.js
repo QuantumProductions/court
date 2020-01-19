@@ -234,9 +234,7 @@ export default class Court extends React.Component {
           <IntroCard data="New Card" onSwipe={() => {}} />
         </View>
        <View style={styles.game}>
-         <IntroRow texts={texts1} />
-         <IntroRow texts={texts2} />
-         <IntroRow texts={texts3} />
+          {rows}
        </View>
        <TouchableOpacity style={styles.button} onPress={this.courtButtonPressed} >
           <Text style={styles.text}>
