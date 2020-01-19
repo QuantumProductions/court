@@ -276,15 +276,15 @@ export default class Court extends React.Component {
 
       const courtText = game === 0 ? "HOLD COURT" : "CONTINUE COURT"
 
-      const rows = this.createRows(cards, animation)
-
       return (
         <View style={styles.container}>
         <View style={styles.topCard}>
           <IntroCard data="New Card" onSwipe={() => {}} />
         </View>
-       <View style={styles.game}>
-          {rows}
+      <View style={styles.game}>
+         <IntroRow texts={texts1} />
+         <IntroRow texts={texts2} />
+         <IntroRow texts={texts3} />
        </View>
        <TouchableOpacity style={styles.button} onPress={this.courtButtonPressed} >
           <Text style={styles.text}>
@@ -299,25 +299,34 @@ export default class Court extends React.Component {
     if (animation) {
       animationP = animation.animationP
     }
+
+    const rows = this.createRows(cards, animation)
+
     return (
       <View style={styles.container}>
         <View style={styles.topRow}>
           <Card data={newCard} onSwipe={() => {}} animation={{animationP: animationP, animationDirection: "east"}} />
-          <Overlook data={this.state} helpPressed={this.helpPressed} />
         </View>
+        <View style={styles.overlook}>
+            <Overlook data={this.state} helpPressed={this.helpPressed} />
+          </View>
      <View style={styles.game}>
-       <Row cards={cards[0]} y={0} onSwipe={this.onSwipe} animation={animation} />
-       <Row cards={cards[1]} y={1} onSwipe={this.onSwipe} animation={animation} />
-       <Row cards={cards[2]} y={2} onSwipe={this.onSwipe} animation={animation} />
+      {rows}
      </View>
-     </View>
+    </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  overlook: {
+    position: 'absolute',
+    right: 20,
+    top: 0,
+  },
   topRow: {
-    marginTop: 20,
+    top: 20,
+    left: 0,
     flexDirection: 'row',
     width: width
   },

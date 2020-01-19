@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     width: cardw
   },
   container: {
+    top: 20,
   	alignItems: 'center',
   	justifyContent: 'center',
   	width: cardw,
