@@ -289,7 +289,7 @@ export default class Court extends React.Component {
       } else if (animation.animationDirection === "north") {
         newCardBottomY = 0
       } else {
-        newCardBottomY = cardh * 2
+        newCardBottomY = cardh * 4
       }
 
       let newCardStyle
