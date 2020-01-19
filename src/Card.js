@@ -7,7 +7,7 @@ const cardw = (w / 3)
 const cardh = h / 5
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 
-export default class Card extends React.Component {
+class Card extends React.Component {
 onSwipe(gestureName, gestureState) {
     const {x, y, onSwipe} = this.props
     console.log(gestureName);
@@ -44,7 +44,7 @@ onSwipe(gestureName, gestureState) {
   }
 
 	render() {
-		const {data, animation} = this.props
+		const {data, animation, style} = this.props
 		const {suit, value, card2} = data
 		let suitName = {"D": "diamonds", "H" : "hearts", "C": "clubs", "S": "spades"}[suit]
 		let p = `${value}_of_${suitName}`
@@ -87,7 +87,7 @@ onSwipe(gestureName, gestureState) {
       directionalOffsetThreshold: 80
     };
 
-    let containerStyle = {...styles.container}
+    let containerStyle = style
 
 		return (
 			<GestureRecognizer
@@ -111,6 +111,8 @@ onSwipe(gestureName, gestureState) {
 		)
 	}
 }
+
+export {Card, cardw, cardh}
 
 const styles = StyleSheet.create({
   text: {

@@ -2,10 +2,12 @@ import React from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {Deck, nums} from './Deck'
 import Row from './Row'
-import Card from './Card'
+import {Card, cardw, cardh} from './Card'
 import IntroCard from './IntroCard'
 import IntroRow from './IntroRow'
 import Overlook from './Overlook'
+
+console.log("imported card" + Card)
 
 const width = Dimensions.get('window').width
 
@@ -197,6 +199,29 @@ export default class Court extends React.Component {
     }
   }
 
+  createRows = (cards) => {
+    let views = []
+    let bottomY = cardh * 3
+    let leftX = 0
+
+    let yIncrement = cardh
+    let xIncrement = cardw
+
+    for (let cardRow of cards) {
+      for (let c of cardRow) {
+        let cardView = <Card data={c} style={{position: 'absolute', left: leftX, bottom: bottomY}} />
+        views.push(cardView)
+        leftX += xIncrement
+        if (views.length % 3 === 0) {
+          leftX = 0
+        }
+      }
+      bottomY -= yIncrement
+    }
+
+    return views
+  }
+
   render() {
     const {game, cards, newCard, mode, animation} = this.state;
     if (game === -1) {
@@ -227,7 +252,9 @@ export default class Court extends React.Component {
       ]
 
       const courtText = game === 0 ? "HOLD COURT" : "CONTINUE COURT"
-      console.log(game)
+
+      const rows = this.createRows(cards)
+
       return (
         <View style={styles.container}>
         <View style={styles.topCard}>
