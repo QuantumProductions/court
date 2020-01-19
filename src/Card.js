@@ -87,7 +87,10 @@ onSwipe(gestureName, gestureState) {
       directionalOffsetThreshold: 80
     };
 
-    let containerStyle = style
+    let containerStyle
+    if (style) {
+      containerStyle = style
+    }
 
 		return (
 			<GestureRecognizer

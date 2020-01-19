@@ -368,11 +368,23 @@ export default class Court extends React.Component {
     }
 
     const rows = this.createRows(cards, animation)
+    let newCardStyle = null
+    if (animation) {
+      if (animation.animationDirection === "east") {
+        newCardStyle = {position: 'absolute', left: 0 + ( animation.animationP * cardw), top: 0}
+      } else if (animation.animationDirection === "west") {
+        newCardStyle = {position: 'absolute', left: 0 - (animation.animationP * cardw),  top: 0}
+      } else if (animation.animationDirection === "north") {
+        newCardStyle = {position: 'absolute', left: 0,  top: 0 - (animation.animationP * cardh)}
+      } else if (animation.animationDirection === "south") {
+        newCardStyle = {position: 'absolute', left: 0,  top: 0 + (animation.animationP * cardh)}
+      }
+    }
 
     return (
       <View style={styles.container}>
         <View style={styles.topRow}>
-          <Card data={newCard} onSwipe={() => {}} animation={{animationP: animationP, animationDirection: "east"}} />
+          <Card data={newCard} onSwipe={() => {}} style={newCardStyle} />
         </View>
         <View style={styles.overlook}>
           <Overlook data={this.state} helpPressed={this.helpPressed} />
@@ -395,8 +407,9 @@ const styles = StyleSheet.create({
     top: 20,
     left: 0,
     position: 'absolute',
-    flexDirection: 'row',
-    width: width
+    width: cardw,
+    height: cardh,
+    overflow: 'hidden'
   },
   game: {
     justifyContent: 'flex-end',
