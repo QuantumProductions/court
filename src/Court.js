@@ -82,13 +82,8 @@ export default class Court extends React.Component {
       [0, 0]
     ]
 
-    console.log("My direction" + direction)
-    console.log("Which nd" + d)
-
     let positions = lists[d]
     let [p1,p2,p3] = positions
-    console.log("The 3 positions")
-    console.log(positions)
 
     let {newCard, cards, deck} = this.state
     let cardOff = cards[p3[1]][p3[0]]
@@ -96,7 +91,10 @@ export default class Court extends React.Component {
     let firstCard = cards[p1[1]][p1[0]]
     let newCards = [null, null, null]
     if (this.canSlide(cardOff, newCard)) {
-      // this.positions = positions
+      this.positions = positions
+      this.newCard = newCard
+      this.middleCard = middleCard
+      this.firstCard = firstCard
       cards[p3[1]][p3[0]].slideDirection = direction
       cards[p2[1]][p2[0]].slideDirection = direction
       cards[p1[1]][p1[0]].slideDirection = direction
@@ -133,15 +131,22 @@ export default class Court extends React.Component {
        })
     } else {
       let {cards} = this.state
-      // let [p1,p2,p3] = this.positions
-        //  cards[p3[1]][p3[0]] = this.middleCard
-        // cards[p2[1]][p2[0]] = this.firstCard
-        // cards[p1[1]][p1[0]] = this.newCard
-      this.setState({
-        animation: null,
-        cards: cards
+      let [p1,p2,p3] = this.positions
+         cards[p3[1]][p3[0]] = {...this.middleCard, slideDirection: null}
+         console.log(this.middleCard)
+        cards[p2[1]][p2[0]] = {...this.firstCard, slideDirection: null}
+        console.log(this.firstCard)
+        cards[p1[1]][p1[0]] = {...this.newCard, slideDirection: null}
+        console.log(this.newCard)
+      this.setState(
+        {animation: null
+      }, () => {
+        this.setState({
+          cards: cards
+        }, () => {
+               this.drawCard()
+        })
       })
- 
     }
   }
 
@@ -158,7 +163,7 @@ export default class Court extends React.Component {
   drawCard = () => {
     let {deck} = this.state
     const newCard = deck.pop()
-    this.setState({newCard: newCard, deck: deck})
+    this.setState({newCard: newCard, deck: deck, animation: null})
   }
 
   componentDidMount() {
@@ -246,7 +251,8 @@ export default class Court extends React.Component {
               break;
           }
         }
-        let cardView = <Card x={x} y={y} data={c} style={{position: 'absolute', left: leftX, bottom: bottomY}} onSwipe={this.onSwipe} />
+        let cardKey = "Card" + c.suit + "v" + c.value
+        let cardView = <Card key={cardKey} x={x} y={y} data={c} style={{position: 'absolute', left: leftX, bottom: bottomY}} onSwipe={this.onSwipe} />
         views.push(cardView)
         leftXReset += xIncrement
         if (views.length % 3 === 0) {
@@ -272,8 +278,6 @@ export default class Court extends React.Component {
         newCardBottomY = cardh
       }
 
-      console.log("My ncby" + newCardBottomY + "my y" + y)
-
       let newCardStyle
       switch (animation.animationDirection) {
         case "east":
@@ -283,11 +287,11 @@ export default class Court extends React.Component {
           newCardStyle = {position: 'absolute', left: width - (animation.animationP * cardw),  bottom: newCardBottomY}
           break;
       }
-
-      console.log(`${JSON.stringify(newCardStyle)} ncs`)
-
-      let newCard = <Card x={x} y={y} data={this.state.newCard} onSwipe={() => {}} style={newCardStyle} />
+      let newCardKey = "Card" + this.state.newCard.suit + "v" + this.state.newCard.value
+      let newCard = <Card key={newCardKey} x={x} y={y} data={this.state.newCard} onSwipe={() => {}} style={newCardStyle} />
       views.push(newCard)
+    } else {
+      console.log("No animation")
     }
 
     return views
