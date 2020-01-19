@@ -106,10 +106,10 @@ export default class Court extends React.Component {
        this.setState({
         animation: {
           ...animation,
-          animationP: Math.min(1.0, animation.animationP + 0.3),
+          animationP: Math.min(1.0, animation.animationP + 0.1),
         }
        }, () => {
-        setTimeout(this.animatePForward, 50)
+        setTimeout(this.animatePForward, 1000)
        })
     } else {
       let {cards} = this.state
@@ -186,9 +186,9 @@ export default class Court extends React.Component {
     }
 
     this.direction = d
-    let dirs = {south: 0, west: 1, north: 2, east: 3}
+    // let dirs = {south: 0, west: 1, north: 2, east: 3}
     console.log("The nd should be" + nd)
-    this.slidePressed({x,y,d: nd}, dirs[d])
+    this.slidePressed({x,y,d: nd}, d)
   }
 
   helpPressed = () => {
@@ -216,7 +216,16 @@ export default class Court extends React.Component {
       for (let c of cardRow) {
         leftX = leftXReset
         if (animation && c.slideDirection == animation.animationDirection && animation.animationP) {
-          leftX += (animation.animationP * cardw)
+          console.log(animation.animationDirection)
+          switch (animation.animationDirection) {
+            case "east":
+              leftX += (animation.animationP * cardw)
+              break;
+            case "west":
+              leftX -= (animation.animationP * cardw)
+
+          }
+          
         }
         let cardView = <Card x={x} y={y} data={c} style={{position: 'absolute', left: leftX, bottom: bottomY}} onSwipe={this.onSwipe} />
         views.push(cardView)
