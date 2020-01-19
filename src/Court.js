@@ -279,7 +279,7 @@ export default class Court extends React.Component {
 
       return (
         <View style={styles.container}>
-        <View style={styles.topCard}>
+        <View style={styles.topRow}>
           <IntroCard data="New Card" onSwipe={() => {}} />
         </View>
       <View style={styles.game}>
