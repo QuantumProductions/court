@@ -19,7 +19,8 @@ export default class Court extends React.Component {
     newCard: {suit: "D", value: "a"},
     mode: 0,
     points: 0,
-    highscore: 3261
+    highscore: 3261,
+    sample: []
   }
 
   canSlide(cardOff, newCard) {
@@ -112,7 +113,7 @@ export default class Court extends React.Component {
           animationP: 0.0,
           animationDirection: direction
         },
-        discard: this.state.discard.concat([cardOff]),
+        discard: [...this.state.discard, cardOff],
         cards: cards,
         newCard: newCard
       }, () => {
@@ -139,11 +140,8 @@ export default class Court extends React.Component {
       let {cards} = this.state
       let [p1,p2,p3] = this.positions
          cards[p3[1]][p3[0]] = {...this.middleCard, slideDirection: null}
-         console.log(this.middleCard)
         cards[p2[1]][p2[0]] = {...this.firstCard, slideDirection: null}
-        console.log(this.firstCard)
         cards[p1[1]][p1[0]] = {...this.newCard, slideDirection: null}
-        console.log(this.newCard)
       this.setState(
         {animation: null
       }, () => {
@@ -180,7 +178,6 @@ export default class Court extends React.Component {
     if (this.state.animation) {
       return
     }
-    console.log("Swiping with a d" + d + "x: " +x + "y" + y)
     let nd = 0;
     if (d === "south") {
       if (x == 0) {
@@ -218,7 +215,6 @@ export default class Court extends React.Component {
 
     this.direction = d
     // let dirs = {south: 0, west: 1, north: 2, east: 3}
-    console.log("The nd should be" + nd)
     this.slidePressed({x,y,d: nd}, d)
   }
 
@@ -235,6 +231,10 @@ export default class Court extends React.Component {
 
   courtButtonPressed = () => {
     if (this.state.mode === 0 || this.state.mode === 10 || this.state.mode === 4) {
+      if (this.dnote) {
+        console.log("REturning to mode 1" + this.dnote.length)
+      }
+      
       this.setState({mode: 1})
     }
   }
@@ -258,17 +258,13 @@ export default class Court extends React.Component {
         leftX = leftXReset
         if (animation && c.slideDirection == animation.animationDirection && animation.animationP) {
           if (animation.animationDirection === "east") {
-            console.log("East")
             leftX += (animation.animationP * cardw)
           } else if (animation.animationDirection === "west") {
-            console.log("West")
             leftX -= (animation.animationP * cardw)
           } else if (animation.animationDirection === "north") {
-            console.log("North")
             bottomY += (animation.animationP * cardh)
           } else if (animation.animationDirection === "south") {
             bottomY -= (animation.animationP * cardh)
-            console.log("South")
           }
         }
         let cardKey = "Card" + c.suit + "v" + c.value
@@ -320,7 +316,6 @@ export default class Court extends React.Component {
       let newCard = <Card key={newCardKey} x={x} y={y} data={this.state.newCard} onSwipe={() => {}} style={newCardStyle} />
       views.push(newCard)
     } else {
-      console.log("No animation")
     }
 
     return views
@@ -347,6 +342,11 @@ export default class Court extends React.Component {
     )
   }
 
+  saveDnote(discard) {
+    this.dnote = discard
+    console.log("Saved" + this.dnote)
+  }
+
   render() {
     const {game, cards, deck, discard, newCard, mode, animation, points, highscore} = this.state;
     if (game === -1) {
@@ -358,14 +358,17 @@ export default class Court extends React.Component {
       return (<View />)
     }
     if (mode === 4) {
-      console.log(JSON.stringify(deck))
+      console.log("these are my discard" + JSON.stringify(discard))
       let discards = this.discardTextFragment(discard)
+      
+      this.saveDnote(discard)
+      console.log(JSON.stringify(this.dnote))
       return (
         <View style={{...styles.container, backgroundColor: 'white'}}>
           <View style={styles.discard}>
             {discards}
           </View>
-          <TouchableOpacity style={styles.button} onPress={this.courtButtonPressed} >
+          <TouchableOpacity style={styles.button} onPress={() => this.courtButtonPressed()} >
             <Text style={styles.text}>
               HOLD COURT
             </Text>
@@ -414,7 +417,7 @@ export default class Court extends React.Component {
          <IntroRow texts={texts2} />
          <IntroRow texts={texts3} />
        </View>
-       <TouchableOpacity style={styles.button} onPress={this.courtButtonPressed} >
+       <TouchableOpacity style={styles.button} onPress={() => this.courtButtonPressed()} >
           <Text style={styles.text}>
             {courtText}
           </Text>
@@ -463,7 +466,7 @@ export default class Court extends React.Component {
          <IntroRow texts={texts2} />
          <IntroRow texts={texts3} />
        </View>
-       <TouchableOpacity style={styles.button} onPress={this.courtButtonPressed} >
+       <TouchableOpacity style={styles.button} onPress={() => this.courtButtonPressed()} >
           <Text style={styles.text}>
             {courtText}
           </Text>
