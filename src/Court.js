@@ -113,10 +113,11 @@ export default class Court extends React.Component {
           animationP: 0.0,
           animationDirection: direction
         },
-        discard: [...this.state.discard, cardOff],
+        discard: this.state.discard.concat([cardOff]),
         cards: cards,
         newCard: newCard
       }, () => {
+        console.log("Hello thet ditstcardt" + JSON.stringify(this.state.discard))
         this.animatePForward()
     })
     }
@@ -329,22 +330,17 @@ export default class Court extends React.Component {
     this.setState({mode: 4})
   }
 
-  discardTextFragment = (cards) => {
-    if (cards.length === 0) {
+  discardTextFragment = (cards, index) => {
+    if (index === cards.length) {
       return ""
     }
-    let c = cards.pop()
-    const textStyle = {color: Card.color[c.suit], fontSize: 50, fontWeight: 'bold', fontFamily: 'blackchancery', }
+    let c = cards[index]
+    const textStyle = {color: Card.color[c.suit], fontSize: 16, fontWeight: 'bold', fontFamily: 'blackchancery', }
     return (
       <Text style={textStyle}>
-        {c.value}{Card.suit[c.suit]} {this.discardTextFragment(cards)}
+        {c.value.toUpperCase()}{Card.suit[c.suit]} {this.discardTextFragment(cards, index + 1)}
       </Text>
     )
-  }
-
-  saveDnote(discard) {
-    this.dnote = discard
-    console.log("Saved" + this.dnote)
   }
 
   render() {
@@ -358,22 +354,21 @@ export default class Court extends React.Component {
       return (<View />)
     }
     if (mode === 4) {
-      console.log("these are my discard" + JSON.stringify(discard))
-      let discards = this.discardTextFragment(discard)
-      
-      this.saveDnote(discard)
-      console.log(JSON.stringify(this.dnote))
+      let discards = <Text style={styles.text}>Empty Discard</Text>
+      if (discard.length > 0) {
+        discards = this.discardTextFragment(discard, 0)
+      }
       return (
-        <View style={{...styles.container, backgroundColor: 'white'}}>
+        <View style={styles.container}>
           <View style={styles.discard}>
             {discards}
           </View>
-          <TouchableOpacity style={styles.button} onPress={() => this.courtButtonPressed()} >
+        <TouchableOpacity style={styles.button} onPress={() => this.courtButtonPressed()} >
             <Text style={styles.text}>
               HOLD COURT
             </Text>
          </TouchableOpacity>
-        </View>
+         </View>
       )
     } else if (mode === 0) {
       const texts1 = [
@@ -532,7 +527,7 @@ const styles = StyleSheet.create({
     top: 0,
   },
   scoring: {
-    backgroundColor: 'red',
+    backgroundColor: 'white',
     position: 'absolute',
     left: cardw,
     right: cardw,
@@ -542,6 +537,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#fff',
   },
   court: {
     fontFamily: 'blackchancery',
@@ -550,7 +547,9 @@ const styles = StyleSheet.create({
   points: {
     fontFamily: 'blackchancery',
     marginTop: cardh / 4,
-    fontSize: 22
+    fontSize: 22,
+    borderWidth: 1,
+    borderColor: '#fff',
   },
   topRow: {
     top: 20,
