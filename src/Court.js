@@ -231,6 +231,7 @@ export default class Court extends React.Component {
     let bottomYReset = cardh * 3
     let bottomY = bottomYReset
     let leftXReset = 0
+    let leftX = leftXReset
 
     let yIncrement = cardh
     let xIncrement = cardw
@@ -380,11 +381,19 @@ export default class Court extends React.Component {
         newCardStyle = {position: 'absolute', left: 0,  top: 0 + (animation.animationP * cardh)}
       }
     }
+    const newCardSuit = {H: '♥', D: '♦', C: '♣', S: '♠'}[newCard.suit]
+    
+    const color = {H: 'red', D: 'red', C: 'black', S: 'black'}[newCard.suit]
+    const newCardTextStyle = {color: color,
+    fontSize: 50, fontWeight: 'bold', fontName: 'blackchancery', }
+    
 
     return (
       <View style={styles.container}>
         <View style={styles.topRow}>
-          <Card data={newCard} onSwipe={() => {}} style={newCardStyle} />
+          <Text style={newCardTextStyle}>
+            {newCard.value.toUpperCase()}{newCardSuit}
+          </Text>
         </View>
         <View style={styles.overlook}>
           <Overlook data={this.state} helpPressed={this.helpPressed} />
@@ -407,6 +416,9 @@ const styles = StyleSheet.create({
     top: 20,
     left: 0,
     position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
     width: cardw,
     height: cardh,
     overflow: 'hidden'
