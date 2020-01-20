@@ -452,9 +452,9 @@ export default class Court extends React.Component {
             {highscore}
           </Text>
         </View>
-        <View style={styles.overlook}>
+        <TouchableOpacity onPress={this.helpPressed} style={styles.overlook}>
           <Overlook data={this.state} helpPressed={this.helpPressed} text="Rules" />
-        </View>
+        </TouchableOpacity>
       <View style={styles.game}>
          <IntroRow texts={texts1} />
          <IntroRow texts={texts2} />
