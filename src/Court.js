@@ -426,7 +426,8 @@ const styles = StyleSheet.create({
   game: {
     justifyContent: 'flex-end',
     height: cardh * 3,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    marginBottom: 40
   },
   container: {
     backgroundColor: '#000',
