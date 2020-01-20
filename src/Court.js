@@ -104,11 +104,15 @@ export default class Court extends React.Component {
       newCard.x = ncx
       newCard.y = ncy
 
+      console.log("Biscuit my discard")
+      console.log(JSON.stringify(this.state.discard))
+
       this.setState({
         animation: {
           animationP: 0.0,
           animationDirection: direction
         },
+        discard: this.state.discard.concat([cardOff]),
         cards: cards,
         newCard: newCard
       }, () => {
@@ -230,7 +234,7 @@ export default class Court extends React.Component {
   }
 
   courtButtonPressed = () => {
-    if (this.state.mode === 0 || this.state.mode === 10) {
+    if (this.state.mode === 0 || this.state.mode === 10 || this.state.mode === 4) {
       this.setState({mode: 1})
     }
   }
@@ -322,8 +326,29 @@ export default class Court extends React.Component {
     return views
   }
 
+  showDiscard = () => {
+    if (this.state.animation) {
+      return
+    }
+
+    this.setState({mode: 4})
+  }
+
+  discardTextFragment = (cards) => {
+    if (cards.length === 0) {
+      return ""
+    }
+    let c = cards.pop()
+    const textStyle = {color: Card.color[c.suit], fontSize: 50, fontWeight: 'bold', fontFamily: 'blackchancery', }
+    return (
+      <Text style={textStyle}>
+        {c.value}{Card.suit[c.suit]} {this.discardTextFragment(cards)}
+      </Text>
+    )
+  }
+
   render() {
-    const {game, cards, newCard, mode, animation, points, highscore} = this.state;
+    const {game, cards, deck, discard, newCard, mode, animation, points, highscore} = this.state;
     if (game === -1) {
       const animation = {animationP: 0.8, animationDirection: "south"}
       return (
@@ -332,7 +357,22 @@ export default class Court extends React.Component {
 
       return (<View />)
     }
-    if (mode === 0) {
+    if (mode === 4) {
+      console.log(JSON.stringify(deck))
+      let discards = this.discardTextFragment(discard)
+      return (
+        <View style={{...styles.container, backgroundColor: 'white'}}>
+          <View style={styles.discard}>
+            {discards}
+          </View>
+          <TouchableOpacity style={styles.button} onPress={this.courtButtonPressed} >
+            <Text style={styles.text}>
+              HOLD COURT
+            </Text>
+         </TouchableOpacity>
+        </View>
+      )
+    } else if (mode === 0) {
       const texts1 = [
         "Court is a 3x3 grid.",
         "Win with 3 of the same rank aligned.",
@@ -351,7 +391,7 @@ export default class Court extends React.Component {
         "Tap the button below to start."
       ]
 
-      const courtText = game === 0 ? "HOLD COURT" : "CONTINUE COURT"
+      const courtText = "HOLD COURT"
 
       return (
         <View style={styles.container}>
@@ -450,20 +490,19 @@ export default class Court extends React.Component {
         newCardStyle = {position: 'absolute', left: 0,  top: 0 + (animation.animationP * cardh)}
       }
     }
-    const newCardSuit = {H: '♥', D: '♦', C: '♣', S: '♠'}[newCard.suit]
+    const newCardSuit = Card.suit[newCard.suit]
     
-    const color = {H: 'red', D: 'red', C: 'black', S: 'black'}[newCard.suit]
+    const color = Card.color[newCard.suit]
     const newCardTextStyle = {color: color,
-    fontSize: 50, fontWeight: 'bold', fontName: 'blackchancery', }
-    
+    fontSize: 50, fontWeight: 'bold', fontFamily: 'blackchancery'}
 
     return (
       <View style={styles.container}>
-        <View style={styles.topRow}>
+        <TouchableOpacity onPress={this.showDiscard} style={styles.topRow}>
           <Text style={newCardTextStyle}>
             {newCard.value.toUpperCase()}{newCardSuit}
           </Text>
-        </View>
+        </TouchableOpacity>
         <View style={styles.scoring}>
           <Text style={styles.court}>
             Court Score
@@ -549,5 +588,10 @@ const styles = StyleSheet.create({
   button: {
     position: 'absolute',
     bottom: 0
+  },
+  discard: {
+    flex: 1,
+    margin: 40,
+    backgroundColor: 'white'
   }
 });

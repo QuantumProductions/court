@@ -113,6 +113,9 @@ onSwipe(gestureName, gestureState) {
 			</GestureRecognizer>
 		)
 	}
+
+  static suit = {H: '♥', D: '♦', C: '♣', S: '♠'}
+  static color = {H: 'red', D: 'red', C: 'black', S: 'black'}
 }
 
 export {Card, cardw, cardh}
