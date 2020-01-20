@@ -117,7 +117,6 @@ export default class Court extends React.Component {
         cards: cards,
         newCard: newCard
       }, () => {
-        console.log("Hello thet ditstcardt" + JSON.stringify(this.state.discard))
         this.animatePForward()
     })
     }
@@ -135,7 +134,7 @@ export default class Court extends React.Component {
           animationP: Math.min(1.0, animation.animationP + 0.1),
         }
        }, () => {
-        setTimeout(this.animatePForward, 50)
+        setTimeout(this.animatePForward, 5)
        })
     } else {
       let {cards} = this.state
@@ -335,7 +334,7 @@ export default class Court extends React.Component {
       return ""
     }
     let c = cards[index]
-    const textStyle = {color: Card.color[c.suit], fontSize: 16, fontWeight: 'bold', fontFamily: 'blackchancery', }
+    const textStyle = {color: Card.color[c.suit], fontSize: 26, fontWeight: 'bold', fontFamily: 'blackchancery', }
     return (
       <Text style={textStyle}>
         {c.value.toUpperCase()}{Card.suit[c.suit]} {this.discardTextFragment(cards, index + 1)}
@@ -404,9 +403,9 @@ export default class Court extends React.Component {
             {highscore}
           </Text>
         </View>
-        <View style={styles.overlook}>
-          <Overlook data={this.state} helpPressed={this.rules2Pressed} text="Rules 2" />
-        </View>
+        <TouchableOpacity onPress={this.rules2Pressed} style={styles.overlook}>
+          <Overlook data={this.state} helpPressed={() => {}} text="Rules 2" />
+        </TouchableOpacity>
       <View style={styles.game}>
          <IntroRow texts={texts1} />
          <IntroRow texts={texts2} />
@@ -509,9 +508,9 @@ export default class Court extends React.Component {
             {points}
           </Text>
         </View>
-        <View style={styles.overlook}>
-          <Overlook data={this.state} helpPressed={this.helpPressed} />
-        </View>
+        <TouchableOpacity onPress={this.helpPressed} style={styles.overlook}>
+          <Overlook data={this.state} helpPressed={() => {}} />
+        </TouchableOpacity>
      <View style={styles.game}>
       {rows}
      </View>
