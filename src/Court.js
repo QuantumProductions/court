@@ -18,7 +18,8 @@ export default class Court extends React.Component {
     game: -1,
     newCard: {suit: "D", value: "a"},
     mode: 0,
-    points: 3621
+    points: 0,
+    highscore: 3261
   }
 
   canSlide(cardOff, newCard) {
@@ -218,11 +219,18 @@ export default class Court extends React.Component {
   }
 
   helpPressed = () => {
+    if (this.state.animation) {
+      return
+    }
     this.setState({mode: 0})
   }
 
+  rules2Pressed = () => {
+    this.setState({mode: 10})
+  }
+
   courtButtonPressed = () => {
-    if (this.state.mode === 0) {
+    if (this.state.mode === 0 || this.state.mode === 10) {
       this.setState({mode: 1})
     }
   }
@@ -315,7 +323,7 @@ export default class Court extends React.Component {
   }
 
   render() {
-    const {game, cards, newCard, mode, animation, points} = this.state;
+    const {game, cards, newCard, mode, animation, points, highscore} = this.state;
     if (game === -1) {
       const animation = {animationP: 0.8, animationDirection: "south"}
       return (
@@ -338,7 +346,7 @@ export default class Court extends React.Component {
       ]
 
       const texts3 = [
-        "♠ off: same value ♦♥♣ slides on. Aces always slide on.",
+        "♠ off: same rank ♦♥♣ slides on. Aces always slide on.",
         "Aces are low points, Kings are high points.",
         "Tap the button below to start."
       ]
@@ -349,6 +357,66 @@ export default class Court extends React.Component {
         <View style={styles.container}>
         <View style={styles.topRow}>
           <IntroCard data="New Card" onSwipe={() => {}} />
+        </View>
+         <View style={styles.scoring}>
+          <Text style={styles.court}>
+            High Score
+          </Text>
+          <Text style={styles.points}>
+            {highscore}
+          </Text>
+        </View>
+        <View style={styles.overlook}>
+          <Overlook data={this.state} helpPressed={this.rules2Pressed} text="Rules 2" />
+        </View>
+      <View style={styles.game}>
+         <IntroRow texts={texts1} />
+         <IntroRow texts={texts2} />
+         <IntroRow texts={texts3} />
+       </View>
+       <TouchableOpacity style={styles.button} onPress={this.courtButtonPressed} >
+          <Text style={styles.text}>
+            {courtText}
+          </Text>
+       </TouchableOpacity>
+       </View>
+      )
+    } else if (mode === 10) {
+      const texts1 = [
+        "Jokers sabotage your Court.",
+        "Jokers replace the first highest rank card.",
+        "Jokers are automatically played.",
+
+      ]
+      const texts2 = [
+        "♠s are not allowed in the same row or column in setup.",
+        "If this were to happen the ♠ is automatically discarded.",
+        "Tap the New Card to view the discard."
+      ]
+
+      const texts3 = [
+        "When you align 3 of the same rank, you win and score.",
+        "Score is summed from the streak of your last 10 games.",
+        "Higher rank and higher discard count scores more points."
+      ]
+
+      const courtText = game === 0 ? "HOLD COURT" : "CONTINUE COURT"
+
+      return (
+        <View style={styles.container}>
+        <View style={styles.topRow}>
+          <IntroCard data="Tap to view discard" onSwipe={() => {}} />
+        </View>
+         <View style={styles.scoring}>
+          <Text style={styles.court}>
+            Streak Score
+          </Text>
+          <Text style={styles.points}>
+            {highscore}
+          </Text>
+        </View>
+        <View style={styles.overlook}>
+          <Overlook data={this.state} helpPressed={this.helpPressed} text="Rules" />
         </View>
       <View style={styles.game}>
          <IntroRow texts={texts1} />
@@ -398,7 +466,7 @@ export default class Court extends React.Component {
         </View>
         <View style={styles.scoring}>
           <Text style={styles.court}>
-            COURT
+            Court Score
           </Text>
           <Text style={styles.points}>
             {points}
@@ -477,5 +545,9 @@ const styles = StyleSheet.create({
     height: 44,
     textAlign: 'center',
     alignSelf: 'center'
+  },
+  button: {
+    position: 'absolute',
+    bottom: 20
   }
 });

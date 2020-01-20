@@ -7,12 +7,12 @@ const cardh = h / 5
 
 export default class Overlook extends React.Component {
 	render() {
-		const {data, helpPressed} = this.props
+		const {data, helpPressed, text} = this.props
 		return (
 				<View style={styles.container}>
           <TouchableOpacity onPress={helpPressed} style={styles.help}>
             <Text style={styles.text}>
-              Rules
+              {text ? text : "Rules"}
             </Text>
           </TouchableOpacity>
 				</View>
