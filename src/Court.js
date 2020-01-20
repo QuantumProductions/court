@@ -17,7 +17,8 @@ export default class Court extends React.Component {
     cards: [],
     game: -1,
     newCard: {suit: "D", value: "a"},
-    mode: 0
+    mode: 0,
+    points: 3621
   }
 
   canSlide(cardOff, newCard) {
@@ -314,7 +315,7 @@ export default class Court extends React.Component {
   }
 
   render() {
-    const {game, cards, newCard, mode, animation} = this.state;
+    const {game, cards, newCard, mode, animation, points} = this.state;
     if (game === -1) {
       const animation = {animationP: 0.8, animationDirection: "south"}
       return (
@@ -395,6 +396,14 @@ export default class Court extends React.Component {
             {newCard.value.toUpperCase()}{newCardSuit}
           </Text>
         </View>
+        <View style={styles.scoring}>
+          <Text style={styles.court}>
+            COURT
+          </Text>
+          <Text style={styles.points}>
+            {points}
+          </Text>
+        </View>
         <View style={styles.overlook}>
           <Overlook data={this.state} helpPressed={this.helpPressed} />
         </View>
@@ -409,8 +418,29 @@ export default class Court extends React.Component {
 const styles = StyleSheet.create({
   overlook: {
     position: 'absolute',
-    right: 20,
+    right: 0,
     top: 0,
+  },
+  scoring: {
+    backgroundColor: 'red',
+    position: 'absolute',
+    left: cardw,
+    right: cardw,
+    top: 20,
+    width: cardw,
+    height: cardh,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  court: {
+    fontFamily: 'blackchancery',
+    fontSize: 20
+  },
+  points: {
+    fontFamily: 'blackchancery',
+    marginTop: cardh / 4,
+    fontSize: 22
   },
   topRow: {
     top: 20,
