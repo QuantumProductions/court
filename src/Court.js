@@ -525,7 +525,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     height: cardh * 3,
     overflow: 'hidden',
-    marginBottom: 40
+    marginBottom: 24
   },
   container: {
     backgroundColor: '#000',
@@ -548,6 +548,6 @@ const styles = StyleSheet.create({
   },
   button: {
     position: 'absolute',
-    bottom: 20
+    bottom: 0
   }
 });
