@@ -44,6 +44,8 @@ export class Deck {
 		{suit: "H", value: "a"},
 		{suit: "C", value: "a"},
 		{suit: "S", value: "a"},
+		{suit: "b", value: "z"},
+		{suit: "r", value: "z"}
 		]
 
 				// {suit: "D", value: "Z"},

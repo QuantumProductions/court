@@ -164,10 +164,23 @@ export default class Court extends React.Component {
     }, this.drawCard)
   }
 
+  applyJoker = (joker, deck) => {
+    let {cards, discard} = this.state
+    let middleCard = cards[1][1]
+    cards[1][1] = joker
+    this.setState({cards: cards, discard:this.state.discard.concat([middleCard]), deck: deck, animation: null}, () => {
+      this.drawCard()
+    })
+  }
+
   drawCard = () => {
     let {deck} = this.state
     const newCard = deck.pop()
-    this.setState({newCard: newCard, deck: deck, animation: null})
+    if (newCard.value === 'z') {
+      this.applyJoker(newCard, deck)
+    } else {
+       this.setState({newCard: newCard, deck: deck, animation: null})
+    }
   }
 
   componentDidMount() {
@@ -334,6 +347,9 @@ export default class Court extends React.Component {
       return ""
     }
     let c = cards[index]
+    if (c.value === 'z') {
+      c.value = "?"
+    }
     const textStyle = {color: Card.color[c.suit], fontSize: 26, fontWeight: 'bold', fontFamily: 'blackchancery', }
     return (
       <Text style={textStyle}>
@@ -421,7 +437,7 @@ export default class Court extends React.Component {
     } else if (mode === 10) {
       const texts1 = [
         "Jokers sabotage your Court.",
-        "Jokers replace the first highest rank card.",
+        "Jokers replace the middle card.",
         "Jokers are automatically played.",
 
       ]

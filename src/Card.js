@@ -46,8 +46,14 @@ onSwipe(gestureName, gestureState) {
 	render() {
 		const {data, animation, style} = this.props
 		const {suit, value, card2} = data
-		let suitName = {"D": "diamonds", "H" : "hearts", "C": "clubs", "S": "spades"}[suit]
-		let p = `${value}_of_${suitName}`
+    let p
+    if (value === "z") {
+      p = {r: 'red_joker', b: 'black_joker'}[suit]
+    } else {
+      let suitName = {"D": "diamonds", "H" : "hearts", "C": "clubs", "S": "spades"}[suit]
+      p = `${value}_of_${suitName}`
+    }
+		
 
     let p2 = null
     let animationDirection = null
@@ -104,18 +110,13 @@ onSwipe(gestureName, gestureState) {
 					style={imageStyle1}
 					source={Images[p]}
 				/>
-        {p2 && <Image
-          resizeMode='contain'
-          style={imageStyle2}
-          source={Images[p2]}
-        />}
 				</View>
 			</GestureRecognizer>
 		)
 	}
 
-  static suit = {H: '♥', D: '♦', C: '♣', S: '♠'}
-  static color = {H: 'red', D: 'red', C: 'black', S: 'black'}
+  static suit = {H: '♥', D: '♦', C: '♣', S: '♠', r: '?', b: '?'}
+  static color = {H: 'red', D: 'red', C: 'black', S: 'black', r: 'red', b: 'black'}
 }
 
 export {Card, cardw, cardh}
