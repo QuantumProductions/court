@@ -23,24 +23,25 @@ export class Deck {
 	}
 
 	static twoSpades(cards, col, row) {
-		let vsums = [0,0,0]
-		let hsums = [
-		0,
-		0,
-		0]
-
-		for (let rn = 0; rn < 3; rn++) {
-			for (let cn = 0; cn < 3; cn++) {
-				let c = cards[rn][cn]
-				if ((c && c.suit === "S") || (rn === row && col === cn)) {
-					// vsums[rn]++
-					// hsums[cn]++
-					// if (vsums[cn] >=2 || hsums[rn] >= 2) {
-					// 	return true
-					// }
-				}
+		let r1 = cards[row][0]
+		let r2 = cards[row][1]
+		let r3 = cards[row][2]
+		for (let rc of [r1,r2,r3]) {
+			if (rc && rc.suit === "S") {
+				return true
 			}
 		}
+
+		let c1 = cards[0][col]
+		let c2 = cards[1][col]
+		let c3 = cards[2][col]
+
+		for (let cc of [c1,c2,c3]) {
+			if (cc && cc.suit === "S") {
+				return true
+			}
+		}
+
 		return false
 	}
 
@@ -51,7 +52,8 @@ export class Deck {
 			return this.applyCard(cards, col, row, shuffled)
 		}
 
-		cards[col][row] = card
+		cards[row][col] = card
+		console.log(JSON.stringify(cards))
 		return cards
 	}
 
