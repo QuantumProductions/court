@@ -6,6 +6,7 @@ import {Card, cardw, cardh} from './Card'
 import IntroCard from './IntroCard'
 import IntroRow from './IntroRow'
 import Overlook from './Overlook'
+import AsyncStorage from '@react-native-community/async-storage'
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
@@ -19,7 +20,8 @@ export default class Court extends React.Component {
     newCard: {suit: "D", value: "a"},
     mode: 0,
     points: 0,
-    highscore: 3261,
+    streaks: [],
+    highscore: 0,
     sample: []
   }
 
@@ -146,7 +148,43 @@ export default class Court extends React.Component {
   loadNextTurn = () => {
     let win = this.gameWon()
     if (win) {
-      console.log("COURT WON" + win)
+      let {discard, points, streaks, highscore} = this.state
+      let discardTotal = discard.length
+      const processionPoints = {
+        "a": 11,
+        "2": 22,
+        "3": 33,
+        "4": 44,
+        "5": 55,
+        "6": 66,
+        "7": 77,
+        "8": 88,
+        "9": 99,
+        "10": 100,
+        "j": 250,
+        "q": 500,
+        "k": 1000}[win]
+        let pp = processionPoints + discardTotal
+        if (streaks.length < 10) {
+          streaks.push(pp)
+        } else {
+          streaks.splice(0, 1)
+          streaks.push(pp)
+        }
+        let streakNums = ''
+
+        AsyncStorage.setItem('streaks', JSON.stringify(streaks.map(String)))
+        let newScore = this.calculateScore(streaks)
+        if (newScore > highscore) {
+          AsyncStorage.setItem('highscore', newScore)
+          this.setState({
+            highscore: newScore,
+            streaks
+          })
+        } else {
+          this.setState({streaks})  
+        }
+        
     } else {
       this.drawCard()
     }
@@ -184,14 +222,45 @@ export default class Court extends React.Component {
     }
   }
 
+  loadStreaks = () => {
+    AsyncStorage.getItem('streaks', (err, streaks) => {
+      if (err || !streaks) {
+        this.setState({
+          game: 0
+        }, () => {
+          this.drawCard()
+        })
+      } else {
+        this.setState({
+          game: 0,
+          streaks: JSON.parse(streaks)
+        }, () => {
+          this.drawCard()
+        })
+      }
+    })
+  }
+
   setup()  {
     const {cards, deck, discard} = Deck.gameStart()
     this.setState({
       cards,
       deck,
       discard,
-      game: 0
-    }, this.drawCard)
+      game: -1
+    }, () => {
+      AsyncStorage.getItem('highscore', (err, highscore) => {
+      if (err || !highscore) {
+        console.log("Error loading highscore");
+        this.loadStreaks()
+      } else {
+        this.setState({
+          highscore
+        }, () => {
+          this.loadStreaks()
+        })
+      }
+    })})
   }
 
   applyJoker = (joker, deck) => {
@@ -384,8 +453,16 @@ export default class Court extends React.Component {
     )
   }
 
+  calculateScore = (streaks) => {
+    let points = 0
+    for (let score of streaks) {
+      points += score
+    }
+    return points
+  }
+
   render() {
-    const {game, cards, deck, discard, newCard, mode, animation, points, highscore} = this.state;
+    const {game, cards, deck, discard, newCard, mode, animation, streaks, highscore} = this.state;
     if (game === -1) {
       const animation = {animationP: 0.8, animationDirection: "south"}
       return (
@@ -535,6 +612,8 @@ export default class Court extends React.Component {
     const color = Card.color[newCard.suit]
     const newCardTextStyle = {color: color,
     fontSize: 50, fontWeight: 'bold', fontFamily: 'blackchancery'}
+
+    let points = this.calculateScore(streaks)
 
     return (
       <View style={styles.container}>

@@ -43,4 +43,6 @@ target 'Court' do
 
   # Automatically detect installed unimodules
   use_unimodules!
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
 end
