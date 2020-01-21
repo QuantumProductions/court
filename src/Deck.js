@@ -22,10 +22,28 @@ export class Deck {
 		return cards
 	}
 
+	static twoSpades(cards, col, row) {
+		let vsums = [0,0,0]
+		let hsums = [0,0,0]
+
+		for (let rn = 0; rn < 3; rn++) {
+			for (let cn = 0; cn < 3; cn++) {
+				let c = cards[rn][cn]
+				if ((c && c.suit === "S") || (rn === row && col === cn)) {
+					vsums[rn]++
+					hsums[cn]++
+					if (vsums[rn] >=2 || hsums[cn] >= 2) {
+						return true
+					}
+				}
+			}
+		}
+		return false
+	}
+
 	static applyCard(cards, col, row, shuffled) {
 		let card = shuffled.pop()
-		console.log("Hey4")
-		if (card.suit === "S") {
+		if (card.suit === "S" && this.twoSpades(cards, col, row)) {
 			this.discard.push(card)
 			return this.applyCard(cards, col, row, shuffled)
 		}
@@ -45,7 +63,7 @@ export class Deck {
 		this.discard = []
 		for (let i = 0; i < 3; i++) {
 			for (let j = 0; j < 3; j++) {
-					cards = this.applyCard(cards, i, j, shuffled)
+					cards = this.applyCard(cards, j, i, shuffled)
 			}
 		}
 
