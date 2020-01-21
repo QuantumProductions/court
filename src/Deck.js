@@ -24,17 +24,20 @@ export class Deck {
 
 	static twoSpades(cards, col, row) {
 		let vsums = [0,0,0]
-		let hsums = [0,0,0]
+		let hsums = [
+		0,
+		0,
+		0]
 
 		for (let rn = 0; rn < 3; rn++) {
 			for (let cn = 0; cn < 3; cn++) {
 				let c = cards[rn][cn]
 				if ((c && c.suit === "S") || (rn === row && col === cn)) {
-					vsums[rn]++
-					hsums[cn]++
-					if (vsums[rn] >=2 || hsums[cn] >= 2) {
-						return true
-					}
+					// vsums[rn]++
+					// hsums[cn]++
+					// if (vsums[cn] >=2 || hsums[rn] >= 2) {
+					// 	return true
+					// }
 				}
 			}
 		}
