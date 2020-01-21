@@ -351,7 +351,7 @@ export default class Court extends React.Component {
     if (c.value === 'z') {
       c.value = "?"
     }
-    const textStyle = {color: Card.color[c.suit], fontSize: 26, fontWeight: 'bold', fontFamily: 'blackchancery', }
+    const textStyle = {color: Card.color[c.suit], fontSize: 26, fontWeight: 'bold', fontFamily: 'blackchancery'}
     return (
       <Text style={textStyle}>
         {c.value.toUpperCase()}{Card.suit[c.suit]} {this.discardTextFragment(cards, index + 1)}
@@ -370,13 +370,14 @@ export default class Court extends React.Component {
       return (<View />)
     }
     if (mode === 4) {
-      let discards = <Text style={styles.text}>Empty Discard</Text>
+      let discards
       if (discard.length > 0) {
         discards = this.discardTextFragment(discard, 0)
       }
       return (
         <View style={styles.container}>
           <View style={styles.discard}>
+            <Text style={styles.text}>Discarded</Text>
             {discards}
           </View>
         <TouchableOpacity style={styles.button} onPress={() => this.courtButtonPressed()} >
