@@ -53,7 +53,6 @@ export class Deck {
 		}
 
 		cards[row][col] = card
-		console.log(JSON.stringify(cards))
 		return cards
 	}
 
@@ -64,7 +63,6 @@ export class Deck {
 			[null, null, null],
 			[null, null, null]
 		]
-		console.log("game start")
 		this.discard = []
 		for (let i = 0; i < 3; i++) {
 			for (let j = 0; j < 3; j++) {
@@ -73,23 +71,20 @@ export class Deck {
 		}
 
 		let addIns = [
-		{suit: "D", value: "k"},
-		{suit: "H", value: "k"},
-		{suit: "C", value: "k"},
-		{suit: "S", value: "k"},
-		{suit: "D", value: "a"},
-		{suit: "H", value: "a"},
-		{suit: "C", value: "a"},
-		{suit: "S", value: "a"},
-		{suit: "b", value: "z"},
-		{suit: "r", value: "z"}
+			{suit: "D", value: "k"},
+			{suit: "H", value: "k"},
+			{suit: "C", value: "k"},
+			{suit: "S", value: "k"},
+			{suit: "D", value: "a"},
+			{suit: "H", value: "a"},
+			{suit: "C", value: "a"},
+			{suit: "S", value: "a"},
+			{suit: "b", value: "z"},
+			{suit: "r", value: "z"}
 		]
 
-				// {suit: "D", value: "Z"},
-		// {suit: "C", value: "Z"}
 
 		shuffled = shuffle(shuffled.concat(addIns))
-		console.log("Here's my discard" + JSON.stringify(this.discard))
 		return {cards: cards, deck: shuffled, discard: this.discard}
 	}
 }

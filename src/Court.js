@@ -105,9 +105,6 @@ export default class Court extends React.Component {
       newCard.x = ncx
       newCard.y = ncy
 
-      console.log("Biscuit my discard")
-      console.log(JSON.stringify(this.state.discard))
-
       this.setState({
         animation: {
           animationP: 0.0,
@@ -155,7 +152,6 @@ export default class Court extends React.Component {
   }
 
   setup()  {
-    console.log("Setting up")
     const {cards, deck, discard} = Deck.gameStart()
     this.setState({
       cards,
@@ -245,10 +241,6 @@ export default class Court extends React.Component {
 
   courtButtonPressed = () => {
     if (this.state.mode === 0 || this.state.mode === 10 || this.state.mode === 4) {
-      if (this.dnote) {
-        console.log("REturning to mode 1" + this.dnote.length)
-      }
-      
       this.setState({mode: 1})
     }
   }
