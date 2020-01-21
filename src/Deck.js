@@ -22,6 +22,18 @@ export class Deck {
 		return cards
 	}
 
+	static applyCard(cards, col, row, shuffled) {
+		let card = shuffled.pop()
+		console.log("Hey4")
+		if (card.suit === "S") {
+			this.discard.push(card)
+			return this.applyCard(cards, col, row, shuffled)
+		}
+
+		cards[col][row] = card
+		return cards
+	}
+
 	static gameStart() {
 		let shuffled = shuffle(this.startingCards())
 		let cards = [
@@ -29,9 +41,11 @@ export class Deck {
 			[null, null, null],
 			[null, null, null]
 		]
+		console.log("game start")
+		this.discard = []
 		for (let i = 0; i < 3; i++) {
 			for (let j = 0; j < 3; j++) {
-					cards[i][j] = shuffled.pop()
+					cards = this.applyCard(cards, i, j, shuffled)
 			}
 		}
 
@@ -52,7 +66,7 @@ export class Deck {
 		// {suit: "C", value: "Z"}
 
 		shuffled = shuffle(shuffled.concat(addIns))
-
-		return {cards: cards, deck: shuffled, discard: []}
+		console.log("Here's my discard" + JSON.stringify(this.discard))
+		return {cards: cards, deck: shuffled, discard: this.discard}
 	}
 }

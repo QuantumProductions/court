@@ -155,6 +155,7 @@ export default class Court extends React.Component {
   }
 
   setup()  {
+    console.log("Setting up")
     const {cards, deck, discard} = Deck.gameStart()
     this.setState({
       cards,
