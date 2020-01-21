@@ -25,7 +25,7 @@ export default class Court extends React.Component {
 
   canSlide(cardOff, newCard) {
     return true
-    if (newCard.value === "a") {
+    if (newCard.value === "a" || cardOff.value === "z") {
       return true
     }
     let offSuit = cardOff.suit
@@ -51,25 +51,26 @@ export default class Court extends React.Component {
     return newValue === offValue
   }
 
+  lists = [
+    [[0,0], [0,1], [0,2]],
+    [[1,0], [1,1], [1,2]],
+    [[2,0], [2,1], [2,2]],
+
+    [[2,0], [1,0], [0,0]],
+    [[2,1], [1,1], [0,1]],
+    [[2,2], [1,2], [0,2]],
+
+    [[2,2], [2,1], [2,0]],
+    [[1,2], [1,1], [1,0]],
+    [[0,2], [0,1], [0,0]],
+
+    [[0,2], [1,2], [2,2]],
+    [[0,1], [1,1], [2,1]],
+    [[0,0], [1,0], [2,0]]
+  ]
+
+
   slidePressed = ({x, y, d}, direction) => {
-    const lists = [
-      [[0,0], [0,1], [0,2]],
-      [[1,0], [1,1], [1,2]],
-      [[2,0], [2,1], [2,2]],
-
-      [[2,0], [1,0], [0,0]],
-      [[2,1], [1,1], [0,1]],
-      [[2,2], [1,2], [0,2]],
-
-      [[2,2], [2,1], [2,0]],
-      [[1,2], [1,1], [1,0]],
-      [[0,2], [0,1], [0,0]],
-
-      [[0,2], [1,2], [2,2]],
-      [[0,1], [1,1], [2,1]],
-      [[0,0], [1,0], [2,0]]
-    ]
-
     const newCardPositions = [
       [0, 0],
       [1, 0],
@@ -85,7 +86,7 @@ export default class Court extends React.Component {
       [0, 0]
     ]
 
-    let positions = lists[d]
+    let positions = this.lists[d]
     let [p1,p2,p3] = positions
 
     let {newCard, cards, deck} = this.state
@@ -119,6 +120,38 @@ export default class Court extends React.Component {
     }
   }
 
+  gameWon = () => {
+    const {cards} = this.state
+    for (let cardset of this.lists) {
+      let match = null
+      let matchSum = 0
+      for (let coords of cardset) {
+        let c = cards[coords[0]][coords[1]]
+        if (!match) {
+          match = c.value
+          matchSum = 1
+        } else {
+          if (c.value === match) {
+            matchSum++
+            if (matchSum === 3) {
+              return match
+            }
+          }
+        }
+      }
+    }
+    return false
+  }
+
+  loadNextTurn = () => {
+    let win = this.gameWon()
+    if (win) {
+      console.log("COURT WON" + win)
+    } else {
+      this.drawCard()
+    }
+  }
+
   animatePForward = () => {
     const {animation} = this.state
     if (!animation) {
@@ -145,7 +178,7 @@ export default class Court extends React.Component {
         this.setState({
           cards: cards
         }, () => {
-               this.drawCard()
+          this.loadNextTurn()
         })
       })
     }
@@ -432,7 +465,7 @@ export default class Court extends React.Component {
       const texts1 = [
         "Jokers sabotage your Court.",
         "Jokers replace the middle card.",
-        "Jokers are automatically played.",
+        "Jokers are automatically played. Jokers can always slide off.",
 
       ]
       const texts2 = [
