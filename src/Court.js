@@ -98,14 +98,8 @@ export default class Court extends React.Component {
     let middleCard = cards[p2[1]][p2[0]]
     let firstCard = cards[p1[1]][p1[0]]
     let newCards = [null, null, null]
-    console.log("Called with ignore" +ignore)
     if (ignore) {
-      console.log("Checking for slide off")
-      console.log(JSON.stringify(cardOff))
-      console.log(JSON.stringify(newCard))
       return this.canSlide(cardOff, newCard)
-    } else {
-      console.log("Called without ignore)")
     }
 
     if (this.canSlide(cardOff, newCard)) {
@@ -252,7 +246,6 @@ export default class Court extends React.Component {
           this.drawCard()
         })
       } else {
-        console.log("The saved streaks" + streaks)
         let ssplit = streaks.split(",")
         let sstreaks = []
         for (let s of ssplit) {
@@ -281,7 +274,6 @@ export default class Court extends React.Component {
     }, () => {
       AsyncStorage.getItem('highscore', (err, highscore) => {
       if (err || !highscore) {
-        console.log("Error loading highscore");
         this.loadStreaks()
       } else {
         this.setState({
@@ -322,20 +314,13 @@ export default class Court extends React.Component {
   }
 
   cannotMove = () => {
-    console.log("Testing cannot move")
     let pushIndex = 0
     let directions = ["south", "south", "south", "west", "west", "west", "north", "north", "north", "east", "east", "east"]
     for (let l of this.lists) {
       let firstPosition = l[0]
-      console.log(firstPosition)
-      console.log("Hey")
       if (this.slidePressed(
         {x: firstPosition[0], y: firstPosition[1], d: pushIndex},
         directions[pushIndex], true)) {
-        console.log("slide pressed ok")
-        console.log(directions[pushIndex])
-        console.log(firstPosition)
-        console.log(pushIndex)
         return false
       }
       pushIndex++
