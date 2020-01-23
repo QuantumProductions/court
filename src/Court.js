@@ -26,7 +26,10 @@ export default class Court extends React.Component {
   }
 
   canSlide(cardOff, newCard) {
-    return true
+    if (this.state.won) {
+      return false
+    }
+
     if (newCard.value === "a" || cardOff.value === "z") {
       return true
     }
@@ -71,8 +74,7 @@ export default class Court extends React.Component {
     [[0,0], [1,0], [2,0]]
   ]
 
-
-  slidePressed = ({x, y, d}, direction) => {
+  slidePressed = ({x, y, d}, direction, ignore) => {
     const newCardPositions = [
       [0, 0],
       [1, 0],
@@ -96,6 +98,16 @@ export default class Court extends React.Component {
     let middleCard = cards[p2[1]][p2[0]]
     let firstCard = cards[p1[1]][p1[0]]
     let newCards = [null, null, null]
+    console.log("Called with ignore" +ignore)
+    if (ignore) {
+      console.log("Checking for slide off")
+      console.log(JSON.stringify(cardOff))
+      console.log(JSON.stringify(newCard))
+      return this.canSlide(cardOff, newCard)
+    } else {
+      console.log("Called without ignore)")
+    }
+
     if (this.canSlide(cardOff, newCard)) {
       this.positions = positions
       this.newCard = newCard
@@ -171,18 +183,27 @@ export default class Court extends React.Component {
           streaks.splice(0, 1)
           streaks.push(pp)
         }
-        let streakNums = ''
-
-        AsyncStorage.setItem('streaks', JSON.stringify(streaks.map(String)))
+        let streakNums = '' + String(streaks[0])
+        let skip = true
+        for (let n of streaks) {
+          if (skip) {
+            skip = false
+            continue
+          }
+          streakNums += ','
+          streakNums += String(n)
+        }
+        AsyncStorage.setItem('streaks', streakNums)
         let newScore = this.calculateScore(streaks)
         if (newScore > highscore) {
-          AsyncStorage.setItem('highscore', newScore)
+          AsyncStorage.setItem('highscore', String(newScore))
           this.setState({
             highscore: newScore,
-            streaks
+            streaks,
+            won: true
           })
         } else {
-          this.setState({streaks})  
+          this.setState({streaks, won: true})  
         }
         
     } else {
@@ -231,9 +252,17 @@ export default class Court extends React.Component {
           this.drawCard()
         })
       } else {
+        console.log("The saved streaks" + streaks)
+        let ssplit = streaks.split(",")
+        let sstreaks = []
+        for (let s of ssplit) {
+          if (!isNaN(s)) {
+            sstreaks.push(parseInt(s))
+          } 
+        }
         this.setState({
           game: 0,
-          streaks: JSON.parse(streaks)
+          streaks: sstreaks
         }, () => {
           this.drawCard()
         })
@@ -247,7 +276,8 @@ export default class Court extends React.Component {
       cards,
       deck,
       discard,
-      game: -1
+      game: -1,
+      won: false
     }, () => {
       AsyncStorage.getItem('highscore', (err, highscore) => {
       if (err || !highscore) {
@@ -255,7 +285,7 @@ export default class Court extends React.Component {
         this.loadStreaks()
       } else {
         this.setState({
-          highscore
+          highscore: String(highscore)
         }, () => {
           this.loadStreaks()
         })
@@ -272,13 +302,63 @@ export default class Court extends React.Component {
     })
   }
 
+  loseGame = () => {
+    const {streaks, highscore} = this.state
+    let newScore = this.calculateScore(streaks)
+    if (newScore > highscore) {
+      AsyncStorage.setItem('highscore', String(newScore))
+      this.setState({
+        highscore: newScore,
+        streaks: [0],
+        won: -1
+      })
+    } else {
+      this.setState({
+        won: -1,
+        streaks: [0]
+      })
+    }
+    AsyncStorage.setItem('streaks', "0")
+  }
+
+  cannotMove = () => {
+    console.log("Testing cannot move")
+    let pushIndex = 0
+    let directions = ["south", "south", "south", "west", "west", "west", "north", "north", "north", "east", "east", "east"]
+    for (let l of this.lists) {
+      let firstPosition = l[0]
+      console.log(firstPosition)
+      console.log("Hey")
+      if (this.slidePressed(
+        {x: firstPosition[0], y: firstPosition[1], d: pushIndex},
+        directions[pushIndex], true)) {
+        console.log("slide pressed ok")
+        console.log(directions[pushIndex])
+        console.log(firstPosition)
+        console.log(pushIndex)
+        return false
+      }
+      pushIndex++
+    }
+
+    return true
+  }
+
   drawCard = () => {
     let {deck} = this.state
-    const newCard = deck.pop()
-    if (newCard.value === 'z') {
-      this.applyJoker(newCard, deck)
+    if (deck.length > 0) {
+     const newCard = deck.pop()
+      if (newCard.value === 'z') {
+        this.applyJoker(newCard, deck)
+      } else {
+         this.setState({newCard: newCard, deck: deck, animation: null}, () => {
+          if (this.cannotMove()) {
+            this.loseGame()
+          }
+        })
+      }
     } else {
-       this.setState({newCard: newCard, deck: deck, animation: null})
+      this.loseGame()
     }
   }
 
@@ -345,6 +425,10 @@ export default class Court extends React.Component {
     if (this.state.mode === 0 || this.state.mode === 10 || this.state.mode === 4) {
       this.setState({mode: 1})
     }
+  }
+
+  resetPressed = () => {
+    this.setup()
   }
 
   createRows = (cards, animation) => {
@@ -462,7 +546,7 @@ export default class Court extends React.Component {
   }
 
   render() {
-    const {game, cards, deck, discard, newCard, mode, animation, streaks, highscore} = this.state;
+    const {game, cards, deck, discard, newCard, mode, animation, streaks, highscore, won} = this.state;
     if (game === -1) {
       const animation = {animationP: 0.8, animationDirection: "south"}
       return (
@@ -636,6 +720,16 @@ export default class Court extends React.Component {
      <View style={styles.game}>
       {rows}
      </View>
+     {won && won > 0 && <TouchableOpacity style={styles.button} onPress={() => this.resetPressed()} >
+            <Text style={styles.text}>
+              TRIUMPH
+            </Text>
+         </TouchableOpacity>}
+    {won === -1 && <TouchableOpacity style={styles.button} onPress={() => this.resetPressed()} >
+            <Text style={styles.text}>
+              RUIN
+            </Text>
+         </TouchableOpacity>}
     </View>
     )
   }

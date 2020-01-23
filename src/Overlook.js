@@ -9,12 +9,10 @@ export default class Overlook extends React.Component {
 	render() {
 		const {data, helpPressed, text} = this.props
 		return (
-				<View style={styles.container}>
-          <TouchableOpacity onPress={helpPressed} style={styles.help}>
+				<View style={styles.container}>    
             <Text style={styles.text}>
               {text ? text : "Rules"}
             </Text>
-          </TouchableOpacity>
 				</View>
 		)
 	}
