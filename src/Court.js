@@ -723,7 +723,7 @@ export default class Court extends React.Component {
               RUIN
             </Text>
          </TouchableOpacity>}
-    {won === 0 && <AdMobBanner
+    {won === false && <AdMobBanner
         adSize="fullBanner"
         adUnitID={adUnitID}
         testDevices={[AdMobBanner.simulatorId]}
