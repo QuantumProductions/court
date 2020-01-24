@@ -7,3 +7,6 @@ ios/Court.xcworkspace/xcuserdata/combo.zone.xcuserdatad/
 android/app/src/main/java/com/court/generated/
 android/.gradle/
 android/.idea/workspace.xml
+
+android/app/build/
+android/.idea/caches/
