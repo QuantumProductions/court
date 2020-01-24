@@ -7,6 +7,14 @@ import IntroCard from './IntroCard'
 import IntroRow from './IntroRow'
 import Overlook from './Overlook'
 import AsyncStorage from '@react-native-community/async-storage'
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+} from 'react-native-admob'
+
+const adUnitID = Platform.OS === "ios" ? 'ca-app-pub-8143809646615023/6579382228' : 'ca-app-pub-8143809646615023/7002247571'
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
@@ -715,6 +723,12 @@ export default class Court extends React.Component {
               RUIN
             </Text>
          </TouchableOpacity>}
+    {won === 0 && <AdMobBanner
+        adSize="fullBanner"
+        adUnitID={adUnitID}
+        testDevices={[AdMobBanner.simulatorId]}
+        onAdFailedToLoad={error => console.error(error)}
+      />}
     </View>
     )
   }

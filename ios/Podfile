@@ -5,7 +5,7 @@ require_relative '../node_modules/react-native-unimodules/cocoapods'
 target 'Court' do
 
   rnPrefix = "../node_modules/react-native"
-  
+  pod 'Google-Mobile-Ads-SDK'
   # React Native and its dependencies
   pod 'FBLazyVector', :path => "#{rnPrefix}/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "#{rnPrefix}/Libraries/FBReactNativeSpec"
@@ -44,5 +44,7 @@ target 'Court' do
   # Automatically detect installed unimodules
   use_unimodules!
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
+  pod 'react-native-admob', :path => '../node_modules/react-native-admob'
 
 end
