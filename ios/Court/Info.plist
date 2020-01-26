@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>1.1</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-8143809646615023~9205545560</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -54,7 +54,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow Court to access your microphone</string>
 	<key>NSMotionUsageDescription</key>
-	<string>Allow Court to access your device's accelerometer</string>
+	<string>Allow Court to access your device&apos;s accelerometer</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Give Court periences permission to save photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
