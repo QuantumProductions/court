@@ -56,9 +56,20 @@ export default class Court extends React.Component {
         return true
       } else if (newSuit === "C") {
         return nums.indexOf(newValue) > nums.indexOf(offValue)
+      } else if (newSuit === "H") {
+        //Club can be replaced by higher Heart
+        return nums.indexOf(newValue) > nums.indexOf(offValue)
       } else {
         return false
       }
+    }
+    //Spade replaced by lower Club
+    if (newSuit === "C" && (nums.indexOf(offValue) > nums.indexOf(newValue))) {
+      return true
+    }
+    //Spade replaced by higher Spade
+    if (newSuit === offSuit && (nums.indexOf(newValue) > nums.indexOf(offValue))) {
+      return true
     }
 
     return newValue === offValue
@@ -575,14 +586,14 @@ export default class Court extends React.Component {
       ]
       const texts2 = [
         "♦ off: Any card can slide on.",
-        "♥ off: any higher ♦♥♣♠ slides on.",
-        "♣ off: Any higher ♣ or any ♠ slides on."
+        "♥ off: Higher ♦♥♣♠ slides on.",
+        "♣ off: Higher ♣♥, any ♠ slides on."
       ]
 
       const texts3 = [
-        "♠ off: same rank ♦♥♣ slides on. Aces always slide on.",
-        "Aces are low points, Kings are high points.",
-        "Tap the button below to start."
+        "♠ off: same rank ♦♥♣, lower ♣ slides on.",
+        "Aces always slide on. Aces are low points.",
+        "Kings are high points. Tap the button below to start."
       ]
 
       const courtText = "HOLD COURT"
